@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="backend/src/TeckusChallenge.Domain/TeckusChallenge.Domain.csproj" />
+    <Project Path="backend/src/TekusChallenge.API/TekusChallenge.API.csproj" />
+    <Project Path="backend/src/TekusChallenge.Application/TekusChallenge.Application.csproj" />
+    <Project Path="backend/src/TekusChallenge.Infrastructure/TekusChallenge.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+</Solution>

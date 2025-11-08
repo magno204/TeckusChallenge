@@ -18,13 +18,5 @@ public interface IProviderRepository : IGenericRepository<Provider>
     /// </summary>
     Task<Provider?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// Searches providers by name, NIT, or email
-    /// </summary>
-    Task<(IEnumerable<Provider> Items, int TotalCount)> SearchProvidersAsync(
-        string searchTerm,
-        int pageNumber,
-        int pageSize,
-        CancellationToken cancellationToken = default);
 }
 

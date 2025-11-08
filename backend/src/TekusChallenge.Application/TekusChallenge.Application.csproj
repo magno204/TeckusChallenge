@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TeckusChallenge.Domain\TeckusChallenge.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DTO\" />
+    <Folder Include="UseCases\Providers\Commands\CreateProvider\" />
+    <Folder Include="UseCases\Providers\Commands\DeleteProvider\" />
+    <Folder Include="UseCases\Providers\Commands\UpdateProvider\" />
+    <Folder Include="UseCases\Providers\Queries\" />
+  </ItemGroup>
+
 </Project>

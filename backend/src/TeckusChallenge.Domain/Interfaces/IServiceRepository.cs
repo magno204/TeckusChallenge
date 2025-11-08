@@ -18,14 +18,5 @@ public interface IServiceRepository : IGenericRepository<Service>
     /// </summary>
     Task<IEnumerable<Service>> GetByCountryIdAsync(Guid countryId, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// Searches services by name or description
-    /// </summary>
-    Task<(IEnumerable<Service> Items, int TotalCount)> SearchServicesAsync(
-        string searchTerm,
-        int pageNumber,
-        int pageSize,
-        Guid? providerId = null,
-        CancellationToken cancellationToken = default);
 }
 

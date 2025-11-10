@@ -11,7 +11,10 @@ public static class FeatureExtension
 
         services.AddCors(o => o.AddPolicy(myPolicy, builder =>
         {
-            builder.WithOrigins(configuration["Config:OriginCors"]!)
+            var origins = configuration["Config:OriginCors"]?.Split(',', StringSplitOptions.RemoveEmptyEntries) 
+                  ?? new[] { "http://localhost:4200" };
+                  
+            builder.WithOrigins(origins)
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         }));

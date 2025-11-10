@@ -27,6 +27,13 @@ public class GlobalExceptionHandler : IMiddleware
         }
         catch (ValidationExceptionCustom ex)
         {
+            var origin = context.Request.Headers["Origin"].ToString();
+            if (!string.IsNullOrEmpty(origin))
+            {
+                context.Response.Headers.Append("Access-Control-Allow-Origin", origin);
+                context.Response.Headers.Append("Access-Control-Allow-Credentials", "true");
+            }
+
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             List<BaseError> errors = new List<BaseError>();
@@ -64,6 +71,13 @@ public class GlobalExceptionHandler : IMiddleware
         }
         catch (Exception ex)
         {
+            var origin = context.Request.Headers["Origin"].ToString();
+            if (!string.IsNullOrEmpty(origin))
+            {
+                context.Response.Headers.Append("Access-Control-Allow-Origin", origin);
+                context.Response.Headers.Append("Access-Control-Allow-Credentials", "true");
+            }
+
             string message = ex.Message;
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

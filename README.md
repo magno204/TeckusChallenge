@@ -82,10 +82,10 @@ TekusChallenge/
 │   │   ├── TekusChallenge.API/          # Capa de presentación
 │   │   ├── TekusChallenge.Application/  # Capa de aplicación
 │   │   ├── TekusChallenge.Domain/       # Capa de dominio
-│   │   └── TekusChallenge.Infrastructure/ # Capa de infraestructura
+│   │   ├── TekusChallenge.Infrastructure/ # Capa de infraestructura
+│   │   └── Tekus.Transversal/           # Componentes transversales
 │   └── tests/
 │       └── TekusChallenge.UnitTests/    # Pruebas unitarias
-├── Tekus.Transversal/                   # Componentes transversales
 └── .github/
     └── workflows/                        # Pipelines de CI/CD
 ```

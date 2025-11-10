@@ -68,10 +68,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("EnableCORS");
+app.AddMiddleware();
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRateLimiter();
 //app.UseRequestTimeouts();
 app.MapControllers();
-app.AddMiddleware();
+
 app.Run();

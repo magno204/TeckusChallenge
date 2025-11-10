@@ -17,6 +17,20 @@ public static class RateLimiterExtensions
                 fixedWindow.QueueLimit = int.Parse(configuration["RateLimiting:QueueLimit"]!);
             });
             configureOptions.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+            configureOptions.OnRejected = async (context, cancellationToken) =>
+            {
+                var origin = context.HttpContext.Request.Headers["Origin"].ToString();
+                if (!string.IsNullOrEmpty(origin))
+                {
+                    context.HttpContext.Response.Headers.Append("Access-Control-Allow-Origin", "*");
+                    context.HttpContext.Response.Headers.Append("Access-Control-Allow-Methods", "*");
+                    context.HttpContext.Response.Headers.Append("Access-Control-Allow-Headers", "*");
+                }
+                
+                context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+                await context.HttpContext.Response.WriteAsync("Too many requests. Please try again later.", cancellationToken);
+            };
         });
 
         return services;

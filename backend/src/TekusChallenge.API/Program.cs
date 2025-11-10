@@ -72,6 +72,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseRateLimiter();
 //app.UseRequestTimeouts();
-app.AddMiddleware();
 app.MapControllers();
+app.AddMiddleware();
 app.Run();

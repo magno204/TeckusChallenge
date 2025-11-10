@@ -1,4 +1,4 @@
-namespace TeckusChallenge.Domain.Entities;
+namespace TekusChallenge.Domain.Entities;
 
 /// <summary>
 /// Provider entity representing a service provider

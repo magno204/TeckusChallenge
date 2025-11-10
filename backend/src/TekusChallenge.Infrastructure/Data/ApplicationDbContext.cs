@@ -1,84 +1,46 @@
 using Microsoft.EntityFrameworkCore;
-using TeckusChallenge.Domain.Entities;
+using System.Reflection;
+using TekusChallenge.Domain.Entities;
+using TekusChallenge.Infrastructure.Interceptors;
 
 namespace TekusChallenge.Infrastructure.Data;
 
-/// <summary>
-/// Application database context
-/// Manages entity configurations and database operations
-/// </summary>
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;
+
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
+         AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor)
         : base(options)
     {
+        this._auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
     }
 
-    /// <summary>
-    /// Providers DbSet
-    /// </summary>
     public DbSet<Provider> Providers { get; set; }
 
-    /// <summary>
-    /// Services DbSet
-    /// </summary>
+    public DbSet<ProviderCustomField> ProviderCustomFields { get; set; }
+
     public DbSet<Service> Services { get; set; }
 
-    /// <summary>
-    /// Countries DbSet
-    /// </summary>
     public DbSet<Country> Countries { get; set; }
 
-    /// <summary>
-    /// ServiceCountries junction table DbSet
-    /// </summary>
     public DbSet<ServiceCountry> ServiceCountries { get; set; }
-
-    /// <summary>
-    /// ProviderCustomFields DbSet
-    /// </summary>
-    public DbSet<ProviderCustomField> ProviderCustomFields { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        // Apply all entity configurations from the current assembly
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // Automatically update audit fields
-        UpdateAuditFields();
-        return base.SaveChangesAsync(cancellationToken);
+        optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
     }
 
-    public override int SaveChanges()
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        UpdateAuditFields();
-        return base.SaveChanges();
+        return await base.SaveChangesAsync(cancellationToken);
     }
 
-    private void UpdateAuditFields()
-    {
-        // Update audit fields for entities that inherit from BaseEntity
-        var baseEntities = ChangeTracker.Entries<BaseEntity>();
-        foreach (var entry in baseEntities)
-        {
-            if (entry.State == EntityState.Added)
-            {
-                entry.Entity.CreatedAt = DateTime.UtcNow;
-                // TODO: Get current user from authentication context
-                // entry.Entity.CreatedBy = _currentUserService.UserId;
-            }
-            else if (entry.State == EntityState.Modified)
-            {
-                entry.Entity.UpdatedAt = DateTime.UtcNow;
-                // TODO: Get current user from authentication context
-                // entry.Entity.UpdatedBy = _currentUserService.UserId;
-            }
-        }
-    }
 }
 

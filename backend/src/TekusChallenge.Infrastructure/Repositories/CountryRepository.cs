@@ -1,6 +1,7 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using TeckusChallenge.Domain.Entities;
-using TeckusChallenge.Domain.Interfaces;
+using TekusChallenge.Domain.Entities;
+using TekusChallenge.Domain.Interfaces;
 using TekusChallenge.Infrastructure.Data;
 
 namespace TekusChallenge.Infrastructure.Repositories;
@@ -11,12 +12,41 @@ namespace TekusChallenge.Infrastructure.Repositories;
 public class CountryRepository : ICountryRepository
 {
     private readonly ApplicationDbContext _context;
-    private readonly DbSet<Country> _dbSet;
 
     public CountryRepository(ApplicationDbContext context)
     {
         _context = context;
-        _dbSet = context.Set<Country>();
+    }
+
+    public async Task<Country> AddAsync(Country entity, CancellationToken cancellationToken = default)
+    {
+        entity.Code = entity.Code.ToUpper();
+        entity.CodeAlpha3 = entity.CodeAlpha3.ToUpper();
+        
+        await _context.Countries.AddAsync(entity, cancellationToken);
+        return entity;
+    }
+
+    public async Task<int> CountAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Countries.CountAsync(cancellationToken);
+    }
+
+    public async Task<bool> ExistsAsync(string code, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(code))
+        {
+            throw new ArgumentException("Country code cannot be null or empty", nameof(code));
+        }
+
+        return await _context.Countries.AnyAsync(c => c.Code == code.ToUpper(), cancellationToken);
+    }
+
+    public async Task<IEnumerable<Country>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Countries
+            .OrderBy(c => c.Name)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<Country?> GetByCodeAsync(string code, CancellationToken cancellationToken = default)
@@ -26,17 +56,10 @@ public class CountryRepository : ICountryRepository
             throw new ArgumentException("Country code cannot be null or empty", nameof(code));
         }
 
-        return await _dbSet
+        return await _context.Countries
             .Include(c => c.ServiceCountries)
                 .ThenInclude(sc => sc.Service)
             .FirstOrDefaultAsync(c => c.Code == code.ToUpper(), cancellationToken);
-    }
-
-    public async Task<IEnumerable<Country>> GetAllAsync(CancellationToken cancellationToken = default)
-    {
-        return await _dbSet
-            .OrderBy(c => c.Name)
-            .ToListAsync(cancellationToken);
     }
 
     public async Task<(IEnumerable<Country> Items, int TotalCount)> GetPagedAsync(
@@ -45,7 +68,7 @@ public class CountryRepository : ICountryRepository
         string? searchTerm = null,
         CancellationToken cancellationToken = default)
     {
-        var query = _dbSet.AsQueryable();
+        IQueryable<Country> query = _context.Countries;
 
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
@@ -67,46 +90,22 @@ public class CountryRepository : ICountryRepository
         return (items, totalCount);
     }
 
-    public async Task<Country> AddAsync(Country country, CancellationToken cancellationToken = default)
+    public async Task<bool> UpdateAsync(Country entity, CancellationToken cancellationToken = default)
     {
-        if (country == null)
+        var existingCountry = await _context.Countries
+            .AsNoTracking()
+            .SingleOrDefaultAsync(c => c.Code == entity.Code, cancellationToken);
+
+        if (existingCountry == null)
         {
-            throw new ArgumentNullException(nameof(country));
+            return false;
         }
 
-        country.Code = country.Code.ToUpper();
-        country.CodeAlpha3 = country.CodeAlpha3.ToUpper();
+        entity.Code = entity.Code.ToUpper();
+        entity.CodeAlpha3 = entity.CodeAlpha3.ToUpper();
 
-        await _dbSet.AddAsync(country, cancellationToken);
-        return country;
-    }
-
-    public void UpdateAsync(Country country)
-    {
-        if (country == null)
-        {
-            throw new ArgumentNullException(nameof(country));
-        }
-
-        country.Code = country.Code.ToUpper();
-        country.CodeAlpha3 = country.CodeAlpha3.ToUpper();
-
-        _dbSet.Update(country);
-    }
-
-    public async Task<bool> ExistsAsync(string code, CancellationToken cancellationToken = default)
-    {
-        if (string.IsNullOrWhiteSpace(code))
-        {
-            throw new ArgumentException("Country code cannot be null or empty", nameof(code));
-        }
-
-        return await _dbSet.AnyAsync(c => c.Code == code.ToUpper(), cancellationToken);
-    }
-
-    public async Task<int> CountAsync(CancellationToken cancellationToken = default)
-    {
-        return await _dbSet.CountAsync(cancellationToken);
+        _context.Countries.Update(entity);
+        return await Task.FromResult(true);
     }
 }
 

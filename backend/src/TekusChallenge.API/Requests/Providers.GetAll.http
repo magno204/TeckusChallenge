@@ -1,0 +1,98 @@
+@TekusChallenge.API_HostAddress = http://localhost:5112
+
+### Get all providers (default pagination: page 1, size 10)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers
+Accept: application/json
+
+###
+
+### Get providers with specific pagination
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers?pageNumber=1&pageSize=20
+Accept: application/json
+
+###
+
+### Get second page with 5 elements per page
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers?pageNumber=2&pageSize=5
+Accept: application/json
+
+###
+
+### General search (searches in Name, Nit and Email)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers?searchTerm=ejemplo
+Accept: application/json
+
+###
+
+### Specific filter by NIT
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers?nit=900123
+Accept: application/json
+
+###
+
+### Specific filter by Email
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers?email=proveedor.com
+Accept: application/json
+
+###
+
+### Combined filters: NIT and Email
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers?nit=900&email=@proveedor
+Accept: application/json
+
+###
+
+### Sort by name (ascending)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers?orderBy=name&orderDescending=false
+Accept: application/json
+
+###
+
+### Sort by name (descending)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers?orderBy=name&orderDescending=true
+Accept: application/json
+
+###
+
+### Sort by creation date (most recent first)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers?orderBy=createdAt&orderDescending=true
+Accept: application/json
+
+###
+
+### Sort by email (ascending)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers?orderBy=email&orderDescending=false
+Accept: application/json
+
+###
+
+### Sort by NIT (descending)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers?orderBy=nit&orderDescending=true
+Accept: application/json
+
+###
+
+### Search with pagination and sorting
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers?searchTerm=proveedor&pageNumber=1&pageSize=15&orderBy=name&orderDescending=false
+Accept: application/json
+
+###
+
+### Filter by NIT with pagination and sorting
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers?nit=900&pageNumber=1&pageSize=10&orderBy=createdAt&orderDescending=true
+Accept: application/json
+
+###
+
+### Complete example: search + filters + pagination + sorting
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers?searchTerm=ejemplo&nit=900&pageNumber=1&pageSize=20&orderBy=name&orderDescending=false
+Accept: application/json
+
+###
+
+### Get providers with large pagination (useful for export)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers?pageNumber=1&pageSize=100
+Accept: application/json
+
+###
+

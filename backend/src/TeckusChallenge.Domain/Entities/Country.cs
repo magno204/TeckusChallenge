@@ -1,4 +1,4 @@
-namespace TeckusChallenge.Domain.Entities;
+namespace TekusChallenge.Domain.Entities;
 
 /// <summary>
 /// Country entity representing countries where services are offered

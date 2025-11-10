@@ -1,0 +1,16 @@
+@TekusChallenge.API_HostAddress = http://localhost:5112
+
+### Get a provider by ID (GET)
+# Note: Replace {provider-id} with a valid GUID of an existing provider
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers/0D9CAB33-0FCD-47A6-9805-1CC3AD2C0684
+Accept: application/json
+
+###
+
+### Example 3 - Provider not found test
+# This ID probably doesn't exist (to test error handling)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers/99999999-9999-9999-9999-999999999999
+Accept: application/json
+
+###
+

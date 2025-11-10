@@ -1,6 +1,6 @@
-using TeckusChallenge.Domain.Entities;
+using TekusChallenge.Domain.Entities;
 
-namespace TeckusChallenge.Domain.Interfaces;
+namespace TekusChallenge.Domain.Interfaces;
 
 /// <summary>
 /// Repository interface for Country entity
@@ -36,7 +36,7 @@ public interface ICountryRepository
     /// <summary>
     /// Updates an existing country
     /// </summary>
-    void UpdateAsync(Country country);
+    Task<bool> UpdateAsync(Country country, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks if a country code exists

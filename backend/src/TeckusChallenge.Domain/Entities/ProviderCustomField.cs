@@ -1,8 +1,8 @@
-namespace TeckusChallenge.Domain.Entities;
+namespace TekusChallenge.Domain.Entities;
 
 /// <summary>
 /// Custom fields that can be added dynamically to providers
-/// Example: "Número de contacto en marte", "Cantidad de mascotas en la nómina"
+/// Example: "Contact number on Mars", "Number of pets on payroll"
 /// </summary>
 public class ProviderCustomField : BaseEntity
 {

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore.Storage;
-using TeckusChallenge.Domain.Interfaces;
+using TekusChallenge.Domain.Interfaces;
 using TekusChallenge.Infrastructure.Data;
 
 namespace TekusChallenge.Infrastructure.Repositories;

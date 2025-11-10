@@ -1,4 +1,4 @@
-namespace TeckusChallenge.Domain.Entities;
+namespace TekusChallenge.Domain.Entities;
 
 /// <summary>
 /// Junction table for many-to-many relationship between Services and Countries

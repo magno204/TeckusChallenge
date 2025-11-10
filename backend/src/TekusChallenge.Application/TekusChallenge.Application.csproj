@@ -7,15 +7,33 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TeckusChallenge.Domain\TeckusChallenge.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Tekus.Transversal\Tekus.Transversal.csproj" />
+    <ProjectReference Include="..\TeckusChallenge.Domain\TekusChallenge.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="DTO\" />
-    <Folder Include="UseCases\Providers\Commands\CreateProvider\" />
+    <Folder Include="UseCases\Auth\Commands\Login\" />
+    <Folder Include="UseCases\Countries\Queries\GetCountryByCode\" />
+    <Folder Include="UseCases\ProviderCustomFields\Commands\DeleteProviderCustomField\" />
+    <Folder Include="UseCases\ProviderCustomFields\Commands\UpdateProviderCustomField\" />
+    <Folder Include="UseCases\ProviderCustomFields\Queries\GetProviderCustomFieldById\" />
+    <Folder Include="UseCases\ProviderCustomFields\Queries\GetProviderCustomFieldsByProviderId\" />
     <Folder Include="UseCases\Providers\Commands\DeleteProvider\" />
-    <Folder Include="UseCases\Providers\Commands\UpdateProvider\" />
-    <Folder Include="UseCases\Providers\Queries\" />
+    <Folder Include="UseCases\Providers\Queries\GetProviderByNit\" />
+    <Folder Include="UseCases\Services\Commands\CreateService\" />
+    <Folder Include="UseCases\Services\Commands\DeleteService\" />
+    <Folder Include="UseCases\Services\Commands\UpdateService\" />
+    <Folder Include="UseCases\Services\Queries\GetAllServices\" />
+    <Folder Include="UseCases\Services\Queries\GetServiceById\" />
+    <Folder Include="UseCases\Services\Queries\GetServicesByProviderId\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="FluentValidation" Version="12.1.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.0" />
+    <PackageReference Include="MediatR" Version="12.5.0" />
   </ItemGroup>
 
 </Project>

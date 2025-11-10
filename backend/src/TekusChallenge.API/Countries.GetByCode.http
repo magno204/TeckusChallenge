@@ -1,0 +1,74 @@
+@TekusChallenge.API_HostAddress = http://localhost:5112
+
+### Get all countries from the external API
+GET {{TekusChallenge.API_HostAddress}}/api/v1/countries
+
+###
+
+### Get country by ISO Alpha-2 code (Colombia)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/countries/CO
+
+###
+
+### Get country by ISO Alpha-2 code (Mexico)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/countries/MX
+
+###
+
+### Get country by ISO Alpha-2 code (Peru)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/countries/PE
+
+###
+
+### Get country by ISO Alpha-2 code (United States)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/countries/US
+
+###
+
+### Get country by ISO Alpha-2 code (Brazil)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/countries/BR
+
+###
+
+### Get country by ISO Alpha-2 code (Spain)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/countries/ES
+
+###
+
+### Get country by ISO Alpha-2 code (Chile)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/countries/CL
+
+###
+
+### Get country by ISO Alpha-2 code (Argentina)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/countries/AR
+
+###
+
+### Get country with lowercase code (works the same - case insensitive)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/countries/co
+
+###
+
+### Try to get country with invalid code (expected error)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/countries/ZZ
+
+###
+
+### Try to get country with empty code (expected error)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/countries/
+
+###
+
+### Notes:
+# - Codes are ISO Alpha-2 (2 characters)
+# - Codes are not case-sensitive (CO = co = Co)
+# - Data is obtained DIRECTLY from the external REST Countries API
+# - API: https://restcountries.com/v3.1/alpha/{code}
+# - If the country doesn't exist in the external API, a 400 error is returned
+# - If there are connection problems with the external API, a 503 error is returned
+# - The response includes: Code, CodeAlpha3, Name and Flag (flag URL)
+# - Data is NOT stored in local database, it's obtained in real time
+
+###
+

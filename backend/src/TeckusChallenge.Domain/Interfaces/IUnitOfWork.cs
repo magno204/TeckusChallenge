@@ -1,4 +1,4 @@
-namespace TeckusChallenge.Domain.Interfaces;
+namespace TekusChallenge.Domain.Interfaces;
 
 /// <summary>
 /// Unit of Work interface for managing database transactions

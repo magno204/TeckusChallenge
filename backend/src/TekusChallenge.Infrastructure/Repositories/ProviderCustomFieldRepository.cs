@@ -1,32 +1,125 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using TeckusChallenge.Domain.Entities;
-using TeckusChallenge.Domain.Interfaces;
+using TekusChallenge.Domain.Entities;
+using TekusChallenge.Domain.Interfaces;
 using TekusChallenge.Infrastructure.Data;
 
 namespace TekusChallenge.Infrastructure.Repositories;
 
 /// <summary>
 /// Provider custom field repository implementation with custom field-specific operations
-/// Extends GenericRepository for common operations and adds custom queries
 /// </summary>
-public class ProviderCustomFieldRepository : GenericRepository<ProviderCustomField>, IProviderCustomFieldRepository
+public class ProviderCustomFieldRepository : IProviderCustomFieldRepository
 {
-    public ProviderCustomFieldRepository(ApplicationDbContext context) : base(context)
+    private readonly ApplicationDbContext _context;
+
+    public ProviderCustomFieldRepository(ApplicationDbContext context)
     {
+        _context = context;
     }
 
-    public override async Task<ProviderCustomField?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<ProviderCustomField> AddAsync(ProviderCustomField entity, CancellationToken cancellationToken = default)
     {
-        return await _dbSet
+        await _context.ProviderCustomFields.AddAsync(entity, cancellationToken);
+        return entity;
+    }
+
+    public async Task<int> CountAsync(Expression<Func<ProviderCustomField, bool>>? predicate = null, CancellationToken cancellationToken = default)
+    {
+        if (predicate == null)
+        {
+            return await _context.ProviderCustomFields.CountAsync(cancellationToken);
+        }
+
+        return await _context.ProviderCustomFields.CountAsync(predicate, cancellationToken);
+    }
+
+    public async Task<bool> RemoveAsync(Guid Id)
+    {
+        try
+        {
+            var entity = await GetByIdAsync(Id);
+            if(entity == null)
+            {
+                return false;
+            }
+            _context.ProviderCustomFields.Remove(entity);
+            return await Task.FromResult(true);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<IEnumerable<ProviderCustomField>> FindAsync(Expression<Func<ProviderCustomField, bool>> predicate, CancellationToken cancellationToken = default)
+    {
+        return await _context.ProviderCustomFields.Where(predicate).ToListAsync(cancellationToken);
+    }
+
+    public async Task<ProviderCustomField?> FirstOrDefaultAsync(Expression<Func<ProviderCustomField, bool>> predicate, CancellationToken cancellationToken = default)
+    {
+        return await _context.ProviderCustomFields.FirstOrDefaultAsync(predicate, cancellationToken);
+    }
+
+    public async Task<IEnumerable<ProviderCustomField>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.ProviderCustomFields
+            .Include(pcf => pcf.Provider)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<ProviderCustomField?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _context.ProviderCustomFields
             .Include(pcf => pcf.Provider)
             .FirstOrDefaultAsync(pcf => pcf.Id == id, cancellationToken);
     }
 
-    public override async Task<IEnumerable<ProviderCustomField>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<(IEnumerable<ProviderCustomField> Items, int TotalCount)> GetPagedAsync(int pageNumber, int pageSize, Expression<Func<ProviderCustomField, bool>>? filter = null, Func<IQueryable<ProviderCustomField>, IOrderedQueryable<ProviderCustomField>>? orderBy = null, CancellationToken cancellationToken = default)
     {
-        return await _dbSet
-            .Include(pcf => pcf.Provider)
-            .ToListAsync(cancellationToken);
+        IQueryable<ProviderCustomField> query = _context.ProviderCustomFields;
+
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
+        query = orderBy != null 
+            ? orderBy(query) 
+            : query.OrderByDescending(x => x.CreatedAt);
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
+
+        return (items, totalCount);
+    }
+
+    public async Task<bool> UpdateAsync(ProviderCustomField entity, CancellationToken cancellationToken = default)
+    {
+        var existingField = await _context.ProviderCustomFields
+            .AsNoTracking()
+            .SingleOrDefaultAsync(pcf => pcf.Id == entity.Id, cancellationToken);
+
+        if (existingField == null)
+        {
+            return false;
+        }
+
+        existingField.FieldName = entity.FieldName.ToUpper();
+        existingField.FieldValue = entity.FieldValue;
+        existingField.FieldType = entity.FieldType;
+        existingField.Description = entity.Description;
+        existingField.DisplayOrder = entity.DisplayOrder;
+
+        _context.ProviderCustomFields.Update(existingField);
+        return await Task.FromResult(true);
+    }
+
+    public async Task<bool> AnyAsync(Expression<Func<ProviderCustomField, bool>> predicate, CancellationToken cancellationToken = default)
+    {
+        return await _context.ProviderCustomFields.AnyAsync(predicate, cancellationToken);
     }
 
     public async Task<IEnumerable<ProviderCustomField>> GetByProviderIdAsync(Guid providerId, CancellationToken cancellationToken = default)
@@ -36,7 +129,7 @@ public class ProviderCustomFieldRepository : GenericRepository<ProviderCustomFie
             throw new ArgumentException("Provider ID cannot be empty", nameof(providerId));
         }
 
-        return await _dbSet
+        return await _context.ProviderCustomFields
             .Where(pcf => pcf.ProviderId == providerId)
             .OrderBy(pcf => pcf.DisplayOrder)
             .ToListAsync(cancellationToken);
@@ -54,7 +147,7 @@ public class ProviderCustomFieldRepository : GenericRepository<ProviderCustomFie
             throw new ArgumentException("Field name cannot be null or empty", nameof(fieldName));
         }
 
-        return await _dbSet
+        return await _context.ProviderCustomFields
             .FirstOrDefaultAsync(pcf => pcf.ProviderId == providerId && pcf.FieldName == fieldName, cancellationToken);
     }
 
@@ -65,13 +158,13 @@ public class ProviderCustomFieldRepository : GenericRepository<ProviderCustomFie
             throw new ArgumentException("Provider ID cannot be empty", nameof(providerId));
         }
 
-        var customFields = await _dbSet
+        var customFields = await _context.ProviderCustomFields
             .Where(pcf => pcf.ProviderId == providerId)
             .ToListAsync(cancellationToken);
 
         if (customFields.Any())
         {
-            _dbSet.RemoveRange(customFields);
+            _context.ProviderCustomFields.RemoveRange(customFields);
         }
     }
 }

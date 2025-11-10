@@ -1,6 +1,6 @@
-using TeckusChallenge.Domain.Entities;
+using TekusChallenge.Domain.Entities;
 
-namespace TeckusChallenge.Domain.Interfaces;
+namespace TekusChallenge.Domain.Interfaces;
 
 /// <summary>
 /// Specific repository interface for Provider entity

@@ -1,34 +1,78 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using TeckusChallenge.Domain.Entities;
-using TeckusChallenge.Domain.Interfaces;
+using TekusChallenge.Domain.Entities;
+using TekusChallenge.Domain.Interfaces;
 using TekusChallenge.Infrastructure.Data;
 
 namespace TekusChallenge.Infrastructure.Repositories;
 
-/// <summary>
-/// Provider repository implementation with provider-specific operations
-/// Extends GenericRepository for common operations and adds custom queries
-/// </summary>
-public class ProviderRepository : GenericRepository<Provider>, IProviderRepository
+public class ProviderRepository : IProviderRepository
 {
-    public ProviderRepository(ApplicationDbContext context) : base(context)
+    private readonly ApplicationDbContext _context;
+
+    public ProviderRepository(ApplicationDbContext context)
     {
+        _context = context;
     }
 
-    public override async Task<Provider?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<Provider> AddAsync(Provider entity, CancellationToken cancellationToken = default)
     {
-        return await _dbSet
-            .Include(p => p.Services)
-            .Include(p => p.CustomFields)
-            .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        await _context.Providers.AddAsync(entity, cancellationToken);
+        return entity;
     }
 
-    public override async Task<IEnumerable<Provider>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<int> CountAsync(Expression<Func<Provider, bool>>? predicate = null, CancellationToken cancellationToken = default)
     {
-        return await _dbSet
+        if (predicate == null)
+        {
+            return await _context.Providers.CountAsync(cancellationToken);
+        }
+
+        return await _context.Providers.CountAsync(predicate, cancellationToken);
+    }
+
+    public async Task<bool> RemoveAsync(Guid Id)
+    {
+        try
+        {
+            var entity = await GetByIdAsync(Id);
+            if (entity != null)
+            {
+                _context.Providers.Remove(entity);
+                return true;
+            }
+            return false;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<IEnumerable<Provider>> FindAsync(Expression<Func<Provider, bool>> predicate, CancellationToken cancellationToken = default)
+    {
+        return await _context.Providers.Where(predicate).ToListAsync(cancellationToken);
+    }
+
+    public async Task<Provider?> FirstOrDefaultAsync(Expression<Func<Provider, bool>> predicate, CancellationToken cancellationToken = default)
+    {
+        return await _context.Providers.FirstOrDefaultAsync(predicate, cancellationToken);
+    }
+
+    public async Task<IEnumerable<Provider>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Providers
             .Include(p => p.Services)
             .Include(p => p.CustomFields)
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<Provider?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _context.Providers
+            .Include(p => p.Services)
+            .Include(p => p.CustomFields)
+            .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
     public async Task<Provider?> GetByNitAsync(string nit, CancellationToken cancellationToken = default)
@@ -38,7 +82,7 @@ public class ProviderRepository : GenericRepository<Provider>, IProviderReposito
             throw new ArgumentException("NIT cannot be null or empty", nameof(nit));
         }
 
-        return await _dbSet
+        return await _context.Providers
             .Include(p => p.Services)
             .Include(p => p.CustomFields)
             .FirstOrDefaultAsync(p => p.Nit == nit, cancellationToken);
@@ -51,11 +95,54 @@ public class ProviderRepository : GenericRepository<Provider>, IProviderReposito
             throw new ArgumentException("Email cannot be null or empty", nameof(email));
         }
 
-        return await _dbSet
+        return await _context.Providers
             .Include(p => p.Services)
             .Include(p => p.CustomFields)
             .FirstOrDefaultAsync(p => p.Email.ToLower() == email.ToLower(), cancellationToken);
     }
 
+    public async Task<(IEnumerable<Provider> Items, int TotalCount)> GetPagedAsync(int pageNumber, int pageSize, Expression<Func<Provider, bool>>? filter = null, Func<IQueryable<Provider>, IOrderedQueryable<Provider>>? orderBy = null, CancellationToken cancellationToken = default)
+    {
+        IQueryable<Provider> query = _context.Providers;
+
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
+        query = orderBy != null 
+            ? orderBy(query) 
+            : query.OrderByDescending(x => x.CreatedAt);
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
+
+        return (items, totalCount);
+    }
+
+    public async Task<bool> UpdateAsync(Provider entity, CancellationToken cancellationToken = default)
+    {
+        var existingProvider = await _context.Providers
+            .AsNoTracking()
+            .SingleOrDefaultAsync(p => p.Id == entity.Id, cancellationToken);
+
+        if (existingProvider == null)
+        {
+            return false;
+        }
+
+        existingProvider.Nit = entity.Nit.ToUpper();
+        existingProvider.Name = entity.Name.ToUpper();
+        existingProvider.Email = entity.Email.ToLower();
+
+        _context.Providers.Update(existingProvider);
+        return await Task.FromResult(true);
+    }
+
+    public async Task<bool> AnyAsync(Expression<Func<Provider, bool>> predicate, CancellationToken cancellationToken = default)
+    {
+        return await _context.Providers.AnyAsync(predicate, cancellationToken);
+    }
 }
 

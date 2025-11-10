@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
-using TeckusChallenge.Domain.Entities;
+using TekusChallenge.Domain.Entities;
 
-namespace TeckusChallenge.Domain.Interfaces;
+namespace TekusChallenge.Domain.Interfaces;
 
 /// <summary>
 /// Generic repository interface for common CRUD operations
@@ -30,7 +30,7 @@ public interface IGenericRepository<T> where T : BaseEntity
     /// <summary>
     /// Gets a single entity that matches the predicate
     /// </summary>
-    Task<T?> GetFirstOrDefaultAsync(
+    Task<T?> FirstOrDefaultAsync(
         Expression<Func<T, bool>> predicate,
         CancellationToken cancellationToken = default);
 
@@ -52,12 +52,12 @@ public interface IGenericRepository<T> where T : BaseEntity
     /// <summary>
     /// Updates an existing entity
     /// </summary>
-    void UpdateAsync(T entity, CancellationToken cancellationToken = default);
+    Task<bool> UpdateAsync(T entity, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an entity
     /// </summary>
-    void RemoveAsync(T entity, CancellationToken cancellationToken = default);
+    Task<bool> RemoveAsync(Guid Id);
 
     /// <summary>
     /// Checks if any entity matches the predicate

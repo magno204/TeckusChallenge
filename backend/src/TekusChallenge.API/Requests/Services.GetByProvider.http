@@ -1,0 +1,32 @@
+@TekusChallenge.API_HostAddress = http://localhost:5112
+
+### Get all services from a specific provider by its ID
+# Replace {providerId} with the provider's GUID
+
+### Example 1: Get services from DevFactory Solutions
+# ProviderId: 5B92770C-0815-4CB0-8FFD-1F7F7D44BACA
+GET {{TekusChallenge.API_HostAddress}}/api/v1/services/provider/5B92770C-0815-4CB0-8FFD-1F7F7D44BACA
+
+###
+
+### Example 2: Get services from CloudServe Pro
+# ProviderId: 5B35E57F-97F5-40B8-949A-309275B24703
+GET {{TekusChallenge.API_HostAddress}}/api/v1/services/provider/5B35E57F-97F5-40B8-949A-309275B24703
+
+###
+
+### Example 3: Get services from a non-existent provider (expected error)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/services/provider/00000000-0000-0000-0000-000000000000
+
+###
+
+### Notes:
+# - This endpoint returns ALL services from a specific provider
+# - Includes complete provider information
+# - Includes all countries associated with each service
+# - Services are sorted alphabetically by name
+# - If the provider doesn't exist, returns a 400 error
+# - If the provider exists but has no services, returns an empty list
+
+###
+

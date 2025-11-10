@@ -1,0 +1,39 @@
+@TekusChallenge.API_HostAddress = http://localhost:5112
+
+### Get all services (GET) - Without filters
+GET {{TekusChallenge.API_HostAddress}}/api/v1/services?pageNumber=1&pageSize=10
+Accept: application/json
+
+###
+
+### Get services with term search
+GET {{TekusChallenge.API_HostAddress}}/api/v1/services?pageNumber=1&pageSize=10&searchTerm=desarrollo
+Accept: application/json
+
+###
+
+### Get services from a specific provider
+# Note: Replace {provider-id} with a valid GUID of an existing provider
+GET {{TekusChallenge.API_HostAddress}}/api/v1/services?pageNumber=1&pageSize=10&providerId=0D9CAB33-0FCD-47A6-9805-1CC3AD2C0684
+Accept: application/json
+
+###
+
+### Get services sorted by name ascending
+GET {{TekusChallenge.API_HostAddress}}/api/v1/services?pageNumber=1&pageSize=10&orderBy=name&orderDescending=false
+Accept: application/json
+
+###
+
+### Get services sorted by hourly rate descending
+GET {{TekusChallenge.API_HostAddress}}/api/v1/services?pageNumber=1&pageSize=10&orderBy=hourlyrate&orderDescending=true
+Accept: application/json
+
+###
+
+### Get services with multiple filters
+GET {{TekusChallenge.API_HostAddress}}/api/v1/services?pageNumber=1&pageSize=5&searchTerm=web&orderBy=hourlyrate&orderDescending=false
+Accept: application/json
+
+###
+

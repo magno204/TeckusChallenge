@@ -1,0 +1,73 @@
+@TekusChallenge.API_HostAddress = http://localhost:5112
+
+### Example 1: Create Frontend Web Development service with countries
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Desarrollo Web Frontend",
+  "hourlyRate": 45.00,
+  "description": "Desarrollo de interfaces de usuario con React, Vue.js y Angular. Incluye diseño responsivo y optimización de rendimiento.",
+  "providerId": "5B92770C-0815-4CB0-8FFD-1F7F7D44BACA",
+  "countryCodes": ["CO", "MX", "PE"]
+}
+
+###
+
+### Example 2: Create Cloud Consulting service with multiple countries
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Consultoría Cloud AWS",
+  "hourlyRate": 75.00,
+  "description": "Asesoría en arquitectura cloud, migración a AWS, optimización de costos y mejores prácticas de seguridad.",
+  "providerId": "5B35E57F-97F5-40B8-949A-309275B24703",
+  "countryCodes": ["CO", "US", "MX", "BR"]
+}
+
+###
+
+### Example 3: Create service without specific countries (global service)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Desarrollo Backend .NET",
+  "hourlyRate": 50.00,
+  "description": "Desarrollo de APIs REST con .NET Core, implementación de arquitectura limpia y patrones de diseño.",
+  "providerId": "5B92770C-0815-4CB0-8FFD-1F7F7D44BACA",
+  "countryCodes": []
+}
+
+###
+
+### Example 4: Update service adding new countries
+PUT {{TekusChallenge.API_HostAddress}}/api/v1/services/GUID_DEL_SERVICIO
+Content-Type: application/json
+
+{
+  "id": "GUID_DEL_SERVICIO",
+  "name": "Desarrollo Web Frontend Actualizado",
+  "hourlyRate": 48.00,
+  "description": "Desarrollo de interfaces de usuario con React, Vue.js, Angular y Next.js.",
+  "providerId": "5B92770C-0815-4CB0-8FFD-1F7F7D44BACA",
+  "countryCodes": ["CO", "MX", "PE", "CL", "AR"]
+}
+
+###
+
+### Note: ISO Alpha-2 Country Codes
+# Countries are loaded from the external API https://restcountries.com
+# Use 2-character ISO Alpha-2 codes, for example:
+# - CO: Colombia
+# - MX: México
+# - PE: Perú
+# - US: Estados Unidos
+# - BR: Brasil
+# - CL: Chile
+# - AR: Argentina
+# - ES: España
+
+###
+

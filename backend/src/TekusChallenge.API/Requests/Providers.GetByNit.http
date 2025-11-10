@@ -1,0 +1,16 @@
+@TekusChallenge.API_HostAddress = http://localhost:5112
+
+### Get a provider by NIT (GET)
+# Note: Replace {provider-nit} with a valid NIT of an existing provider
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers/by-nit/9009876543
+Accept: application/json
+
+###
+
+### Example 2 - Provider not found test
+# This NIT probably doesn't exist (to test error handling)
+GET {{TekusChallenge.API_HostAddress}}/api/v1/providers/by-nit/999999999
+Accept: application/json
+
+###
+

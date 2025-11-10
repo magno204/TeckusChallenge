@@ -1,9 +1,19 @@
 <Solution>
-  <Folder Name="/src/">
-    <Project Path="backend/src/TeckusChallenge.Domain/TeckusChallenge.Domain.csproj" />
-    <Project Path="backend/src/TekusChallenge.API/TekusChallenge.API.csproj" />
+  <Folder Name="/src/" />
+  <Folder Name="/src/Aplicacion/">
     <Project Path="backend/src/TekusChallenge.Application/TekusChallenge.Application.csproj" />
+  </Folder>
+  <Folder Name="/src/Dominio/">
+    <Project Path="backend/src/TeckusChallenge.Domain/TekusChallenge.Domain.csproj" />
+  </Folder>
+  <Folder Name="/src/Infraestructura/">
     <Project Path="backend/src/TekusChallenge.Infrastructure/TekusChallenge.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Servicio/">
+    <Project Path="backend/src/TekusChallenge.API/TekusChallenge.API.csproj" />
+  </Folder>
+  <Folder Name="/src/Transversal/">
+    <Project Path="Tekus.Transversal/Tekus.Transversal.csproj" Id="50fd26a5-ef0a-46b2-967c-443f85da6bbc" />
   </Folder>
   <Folder Name="/tests/" />
 </Solution>

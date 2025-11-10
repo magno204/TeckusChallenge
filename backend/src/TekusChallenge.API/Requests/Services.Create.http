@@ -1,0 +1,339 @@
+@TekusChallenge.API_HostAddress = http://localhost:5112
+
+### 1. Frontend Web Development Service (DevFactory Solutions)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Desarrollo Web Frontend",
+  "hourlyRate": 45.00,
+  "description": "Desarrollo de interfaces de usuario con React, Vue.js y Angular. Incluye diseño responsivo y optimización de rendimiento.",
+  "providerId": "5B92770C-0815-4CB0-8FFD-1F7F7D44BACA"
+}
+
+###
+
+### 2. Backend Development Service (DevFactory Solutions)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Desarrollo Backend .NET",
+  "hourlyRate": 50.00,
+  "description": "Desarrollo de APIs REST con .NET Core, implementación de arquitectura limpia y patrones de diseño.",
+  "providerId": "5B92770C-0815-4CB0-8FFD-1F7F7D44BACA"
+}
+
+###
+
+### 3. Cloud Consulting Service (CloudServe Pro)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Consultoría Cloud AWS",
+  "hourlyRate": 75.00,
+  "description": "Asesoría en arquitectura cloud, migración a AWS, optimización de costos y mejores prácticas de seguridad.",
+  "providerId": "5B35E57F-97F5-40B8-949A-309275B24703"
+}
+
+###
+
+### 4. Testing and QA Service (DevFactory Solutions)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Testing y Quality Assurance",
+  "hourlyRate": 35.00,
+  "description": "Pruebas funcionales, automatización de pruebas con Selenium y Cypress, testing de performance.",
+  "providerId": "5B92770C-0815-4CB0-8FFD-1F7F7D44BACA"
+}
+
+###
+
+### 5. DevOps Service (CloudServe Pro)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "DevOps y CI/CD",
+  "hourlyRate": 65.00,
+  "description": "Implementación de pipelines CI/CD, containerización con Docker, orquestación con Kubernetes.",
+  "providerId": "5B35E57F-97F5-40B8-949A-309275B24703"
+}
+
+###
+
+### 6. Mobile Development Service (DevFactory Solutions)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Desarrollo Mobile Multiplataforma",
+  "hourlyRate": 55.00,
+  "description": "Desarrollo de aplicaciones móviles con React Native y Flutter para iOS y Android.",
+  "providerId": "5B92770C-0815-4CB0-8FFD-1F7F7D44BACA"
+}
+
+###
+
+### 7. Database Service (CloudServe Pro)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Administración de Bases de Datos",
+  "hourlyRate": 60.00,
+  "description": "Diseño, optimización y administración de bases de datos SQL Server, PostgreSQL y MongoDB.",
+  "providerId": "5B35E57F-97F5-40B8-949A-309275B24703"
+}
+
+###
+
+### 8. IT Security Service (SecureIT Networks)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Auditoría de Seguridad",
+  "hourlyRate": 80.00,
+  "description": "Análisis de vulnerabilidades, pentesting, implementación de políticas de seguridad y cumplimiento normativo.",
+  "providerId": "F36B3598-0DC4-4E75-8FD6-1D52A4173EC4"
+}
+
+###
+
+### 9. UI/UX Design Service (DevFactory Solutions)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Diseño UI/UX",
+  "hourlyRate": 40.00,
+  "description": "Diseño de interfaces, experiencia de usuario, prototipado con Figma, investigación de usuarios.",
+  "providerId": "5B92770C-0815-4CB0-8FFD-1F7F7D44BACA"
+}
+
+###
+
+### 10. Machine Learning Service (DevFactory Solutions)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Machine Learning e IA",
+  "hourlyRate": 90.00,
+  "description": "Desarrollo de modelos de ML, análisis predictivo, procesamiento de lenguaje natural, visión por computadora.",
+  "providerId": "5B92770C-0815-4CB0-8FFD-1F7F7D44BACA"
+}
+
+###
+
+### 11. Data Analysis Service (Consultoría Empresarial Ltda)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Análisis de Datos y Business Intelligence",
+  "hourlyRate": 55.00,
+  "description": "Análisis de datos, creación de dashboards con Power BI y Tableau, ETL y data warehousing.",
+  "providerId": "9C11E004-9F84-410C-9BA2-D621F43F43C6"
+}
+
+###
+
+### 12. Basic Service without Description (Mantenimiento Integral 360)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Soporte Técnico",
+  "hourlyRate": 25.00,
+  "providerId": "ACAAFB38-896A-436A-93D5-B7B0664F0CB9"
+}
+
+###
+
+### 13. Premium Rate Service (Consultoría Empresarial Ltda)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Arquitectura de Software Enterprise",
+  "hourlyRate": 120.00,
+  "description": "Diseño de arquitecturas empresariales, microservicios, event-driven architecture, soluciones escalables.",
+  "providerId": "9C11E004-9F84-410C-9BA2-D621F43F43C6"
+}
+
+###
+
+### 14. Blockchain Service (DevFactory Solutions)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Desarrollo Blockchain y Smart Contracts",
+  "hourlyRate": 100.00,
+  "description": "Desarrollo de aplicaciones descentralizadas, smart contracts en Solidity, integración con Ethereum.",
+  "providerId": "5B92770C-0815-4CB0-8FFD-1F7F7D44BACA"
+}
+
+###
+
+### 15. Maintenance Service (Mantenimiento Integral 360)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Mantenimiento de Aplicaciones",
+  "hourlyRate": 30.00,
+  "description": "Mantenimiento correctivo y evolutivo de aplicaciones existentes, corrección de bugs, actualizaciones.",
+  "providerId": "ACAAFB38-896A-436A-93D5-B7B0664F0CB9"
+}
+
+###
+
+### 16. Example with Invalid ProviderId (to test validation)
+# This should fail because the ProviderId doesn't exist
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Servicio de Prueba",
+  "hourlyRate": 50.00,
+  "description": "Este servicio no debe crearse porque el proveedor no existe.",
+  "providerId": "99999999-9999-9999-9999-999999999999"
+}
+
+###
+
+### 17. Low Rate Service (DevFactory Solutions)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Desarrollo Junior",
+  "hourlyRate": 20.00,
+  "description": "Servicios de desarrollo para tareas básicas y soporte técnico nivel junior.",
+  "providerId": "5B92770C-0815-4CB0-8FFD-1F7F7D44BACA"
+}
+
+###
+
+### 18. Scrum Master Service (Academia Tech Training)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Scrum Master y Agile Coaching",
+  "hourlyRate": 70.00,
+  "description": "Facilitación de ceremonias Scrum, coaching de equipos ágiles, implementación de framework Agile.",
+  "providerId": "15EA2B94-E800-4CCB-B864-EA45D220D747"
+}
+
+###
+
+### 19. Product Owner Service (Academia Tech Training)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Product Owner",
+  "hourlyRate": 65.00,
+  "description": "Gestión de product backlog, definición de historias de usuario, priorización de features.",
+  "providerId": "15EA2B94-E800-4CCB-B864-EA45D220D747"
+}
+
+###
+
+### 20. Systems Integration Service (CloudServe Pro)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Integración de Sistemas",
+  "hourlyRate": 58.00,
+  "description": "Integración de sistemas empresariales, desarrollo de APIs, middleware, ESB, conectores personalizados.",
+  "providerId": "5B35E57F-97F5-40B8-949A-309275B24703"
+}
+
+###
+
+### 21. Infrastructure Monitoring Service (SecureIT Networks)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Monitoreo y Seguridad 24/7",
+  "hourlyRate": 85.00,
+  "description": "Monitoreo continuo de infraestructura, detección de amenazas, respuesta a incidentes de seguridad.",
+  "providerId": "F36B3598-0DC4-4E75-8FD6-1D52A4173EC4"
+}
+
+###
+
+### 22. Connectivity Service (Telecom Connect S.A.)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Servicios de Conectividad Empresarial",
+  "hourlyRate": 40.00,
+  "description": "Fibra óptica, enlaces dedicados, VPN empresarial, conexiones de alta velocidad.",
+  "providerId": "0D9CAB33-0FCD-47A6-9805-1CC3AD2C0684"
+}
+
+###
+
+### 23. Technical Training Service (Academia Tech Training)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Capacitación en Tecnologías Emergentes",
+  "hourlyRate": 50.00,
+  "description": "Cursos de formación en cloud computing, contenedores, microservicios y DevOps.",
+  "providerId": "15EA2B94-E800-4CCB-B864-EA45D220D747"
+}
+
+###
+
+### 24. Hardware Sales Service (Hardware Plus Distribuidora)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Consultoría en Equipamiento TI",
+  "hourlyRate": 35.00,
+  "description": "Asesoría en selección de equipos, cotizaciones, y soluciones de hardware empresarial.",
+  "providerId": "610533FC-A587-4447-8CFF-507F34C92D62"
+}
+
+###
+
+### 25. Preventive Maintenance Service (Mantenimiento Integral 360)
+POST {{TekusChallenge.API_HostAddress}}/api/v1/services
+Content-Type: application/json
+
+{
+  "name": "Mantenimiento Preventivo de Infraestructura",
+  "hourlyRate": 45.00,
+  "description": "Mantenimiento programado de servidores, redes y equipos de cómputo.",
+  "providerId": "ACAAFB38-896A-436A-93D5-B7B0664F0CB9"
+}
+
+###
+
+### AVAILABLE PROVIDERS:
+# 5B92770C-0815-4CB0-8FFD-1F7F7D44BACA - DevFactory Solutions (8001112223)
+# 5B35E57F-97F5-40B8-949A-309275B24703 - CloudServe Pro (8003214567)
+# F36B3598-0DC4-4E75-8FD6-1D52A4173EC4 - SecureIT Networks (9002223334)
+# 9C11E004-9F84-410C-9BA2-D621F43F43C6 - Consultoría Empresarial Ltda (8005556789)
+# 15EA2B94-E800-4CCB-B864-EA45D220D747 - Academia Tech Training (9006667778)
+# ACAAFB38-896A-436A-93D5-B7B0664F0CB9 - Mantenimiento Integral 360 (8008889990)
+# 0D9CAB33-0FCD-47A6-9805-1CC3AD2C0684 - Telecom Connect S.A. (9009876543)
+# 610533FC-A587-4447-8CFF-507F34C92D62 - Hardware Plus Distribuidora (8004445556)
+# 03CF1D96-B99D-4BCE-959E-F4ED78F6CAF5 - Infraestructura y Construcción S.A. (9007778888)
+# 61D13839-A91D-49F9-B732-F802FFCBC1B6 - Proveedor de Ejemplo S.A. (9001234567)
+

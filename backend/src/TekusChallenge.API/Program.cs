@@ -8,10 +8,9 @@ using TekusChallenge.API.Modules.RateLimiter;
 using Asp.Versioning.ApiExplorer;
 using TekusChallenge.API.Modules.Middleware;
 using TekusChallenge.API.Modules.Authentication;
+using TekusChallenge.API.Modules.Database;
 using Azure.Identity;
 using Azure.Extensions.AspNetCore.Configuration.Secrets;
-using TekusChallenge.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,21 +39,7 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    try
-    {
-        var context = services.GetRequiredService<ApplicationDbContext>();
-        context.Database.Migrate();
-    }
-    catch (Exception ex)
-    {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Un error ocurrió al aplicar las migraciones.");
-        throw;
-    }
-}
+app.ApplyMigrations();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -10,6 +10,8 @@ using TekusChallenge.API.Modules.Middleware;
 using TekusChallenge.API.Modules.Authentication;
 using Azure.Identity;
 using Azure.Extensions.AspNetCore.Configuration.Secrets;
+using TekusChallenge.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +21,7 @@ var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
 builder.Configuration.AddAzureKeyVault(keyVaultUri, new DefaultAzureCredential(),
     new AzureKeyVaultConfigurationOptions
     {
-        ReloadInterval = TimeSpan.FromMinutes(5)
+        ReloadInterval = TimeSpan.FromMinutes(1)
     });
 
 // Add services to the container.
@@ -37,6 +39,22 @@ builder.Services.AddRateLimiting(builder.Configuration);
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        context.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Un error ocurrió al aplicar las migraciones.");
+        throw;
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

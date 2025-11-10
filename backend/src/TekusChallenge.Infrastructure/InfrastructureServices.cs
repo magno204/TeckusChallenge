@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TekusChallenge.Domain.Interfaces;
-using TekusChallenge.Domain.Interfaces;
 using TekusChallenge.Infrastructure.Data;
 using TekusChallenge.Infrastructure.Repositories;
 using TekusChallenge.Infrastructure.Services;

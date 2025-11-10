@@ -8,8 +8,19 @@ using TekusChallenge.API.Modules.RateLimiter;
 using Asp.Versioning.ApiExplorer;
 using TekusChallenge.API.Modules.Middleware;
 using TekusChallenge.API.Modules.Authentication;
+using Azure.Identity;
+using Azure.Extensions.AspNetCore.Configuration.Secrets;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Azure Key Vault
+var keyVaultName = builder.Configuration["KeyVaultName"];
+var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
+builder.Configuration.AddAzureKeyVault(keyVaultUri, new DefaultAzureCredential(),
+    new AzureKeyVaultConfigurationOptions
+    {
+        ReloadInterval = TimeSpan.FromMinutes(5)
+    });
 
 // Add services to the container.
 

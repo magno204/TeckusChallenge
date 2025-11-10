@@ -23,7 +23,6 @@ public static class AuthenticationExtension
                 {
                     OnTokenValidated = context =>
                     {
-                        var userId = int.Parse(context.Principal!.Identity!.Name!);
                         return Task.CompletedTask;
                     },
                     OnAuthenticationFailed = context =>

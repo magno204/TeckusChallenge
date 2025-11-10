@@ -13,8 +13,9 @@ public static class FeatureExtension
         {
             var origins = configuration["Config:OriginCors"]?.Split(',', StringSplitOptions.RemoveEmptyEntries) 
                   ?? new[] { "http://localhost:4200" };
-                  
-            builder.WithOrigins(origins)
+
+            //builder.WithOrigins(origins)
+            builder.AllowAnyOrigin()
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         }));

@@ -13,7 +13,7 @@
     <Project Path="backend/src/TekusChallenge.API/TekusChallenge.API.csproj" />
   </Folder>
   <Folder Name="/src/Transversal/">
-    <Project Path="Tekus.Transversal/Tekus.Transversal.csproj" Id="50fd26a5-ef0a-46b2-967c-443f85da6bbc" />
+    <Project Path="backend/src/Tekus.Transversal/Tekus.Transversal.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="backend/tests/TekusChallenge.UnitTests/TekusChallenge.UnitTests.csproj" Id="51990e15-92f8-461c-9cd5-46f24c0256d7" />

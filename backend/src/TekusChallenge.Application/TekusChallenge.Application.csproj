@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Tekus.Transversal\Tekus.Transversal.csproj" />
+    <ProjectReference Include="..\Tekus.Transversal\Tekus.Transversal.csproj" />
     <ProjectReference Include="..\TeckusChallenge.Domain\TekusChallenge.Domain.csproj" />
   </ItemGroup>
 

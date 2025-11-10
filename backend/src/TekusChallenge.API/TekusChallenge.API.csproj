@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Tekus.Transversal\Tekus.Transversal.csproj" />
+    <ProjectReference Include="..\Tekus.Transversal\Tekus.Transversal.csproj" />
     <ProjectReference Include="..\TekusChallenge.Application\TekusChallenge.Application.csproj" />
     <ProjectReference Include="..\TekusChallenge.Infrastructure\TekusChallenge.Infrastructure.csproj" />
   </ItemGroup>

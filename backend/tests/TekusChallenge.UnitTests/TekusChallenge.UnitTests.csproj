@@ -33,7 +33,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\TekusChallenge.Application\TekusChallenge.Application.csproj" />
     <ProjectReference Include="..\..\src\TeckusChallenge.Domain\TekusChallenge.Domain.csproj" />
-    <ProjectReference Include="..\..\..\Tekus.Transversal\Tekus.Transversal.csproj" />
+    <ProjectReference Include="..\..\src\Tekus.Transversal\Tekus.Transversal.csproj" />
   </ItemGroup>
 
 </Project>

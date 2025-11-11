@@ -1,0 +1,168 @@
+@TekusChallenge.API_HostAddress = http://localhost:5112
+@bearerToken = YOUR_JWT_TOKEN_HERE
+
+### ==================================================
+### STATISTICS ENDPOINTS - Key Indicators and Reports
+### ==================================================
+
+### 1. Get Summary Report (Comprehensive dashboard)
+# Returns all key indicators:
+# - Statistics by country (providers and services per country)
+# - Total providers and services
+# - Total countries covered
+# - Average hourly rate
+# - Most expensive and cheapest services
+GET {{TekusChallenge.API_HostAddress}}/api/v1/statistics/summary
+Authorization: Bearer {{bearerToken}}
+
+###
+
+### 2. Get Providers by Country
+# Shows how many providers offer services in each country
+# Returns:
+# - List of countries with provider counts
+# - Total providers
+# - Total countries where services are offered
+GET {{TekusChallenge.API_HostAddress}}/api/v1/statistics/providers-by-country
+Authorization: Bearer {{bearerToken}}
+
+###
+
+### 3. Get Services by Country
+# Shows how many services are available in each country
+# Returns:
+# - List of countries with service counts
+# - Total services
+# - Total countries
+# - Average hourly rate across all services
+GET {{TekusChallenge.API_HostAddress}}/api/v1/statistics/services-by-country
+Authorization: Bearer {{bearerToken}}
+
+###
+
+### ==================================================
+### EXAMPLE WITH AUTHENTICATION FLOW
+### ==================================================
+
+### Step 1: Login to get token
+# @name login
+POST {{TekusChallenge.API_HostAddress}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+###
+
+### Step 2: Use the token from login response
+@token = {{login.response.body.$.data.token}}
+
+### Get Summary Report with auto-extracted token
+GET {{TekusChallenge.API_HostAddress}}/api/v1/statistics/summary
+Authorization: Bearer {{token}}
+
+###
+
+### Get Providers by Country with auto-extracted token
+GET {{TekusChallenge.API_HostAddress}}/api/v1/statistics/providers-by-country
+Authorization: Bearer {{token}}
+
+###
+
+### Get Services by Country with auto-extracted token
+GET {{TekusChallenge.API_HostAddress}}/api/v1/statistics/services-by-country
+Authorization: Bearer {{token}}
+
+###
+
+### ==================================================
+### NOTES AND EXAMPLES
+### ==================================================
+
+### Expected Response Format for Summary Report:
+# {
+#   "isSuccess": true,
+#   "message": "Summary report retrieved successfully",
+#   "data": {
+#     "countryStatistics": [
+#       {
+#         "countryCode": "CO",
+#         "countryName": "Colombia",
+#         "providersCount": 5,
+#         "servicesCount": 8
+#       },
+#       {
+#         "countryCode": "PE",
+#         "countryName": "Peru",
+#         "providersCount": 3,
+#         "servicesCount": 6
+#       }
+#     ],
+#     "totalProviders": 10,
+#     "totalServices": 15,
+#     "totalCountriesCovered": 5,
+#     "averageHourlyRate": 45.50,
+#     "mostExpensiveService": {
+#       "id": "guid-here",
+#       "name": "Cloud Infrastructure Setup",
+#       "hourlyRate": 150.00,
+#       "providerName": "CloudServe Pro"
+#     },
+#     "cheapestService": {
+#       "id": "guid-here",
+#       "name": "Basic Support",
+#       "hourlyRate": 15.00,
+#       "providerName": "TechHelp Solutions"
+#     }
+#   }
+# }
+
+### Expected Response Format for Providers by Country:
+# {
+#   "isSuccess": true,
+#   "message": "Found 10 provider(s) across 5 country(ies)",
+#   "data": {
+#     "providersByCountry": [
+#       {
+#         "countryCode": "CO",
+#         "countryName": "Colombia",
+#         "count": 5
+#       },
+#       {
+#         "countryCode": "MX",
+#         "countryName": "Mexico",
+#         "count": 3
+#       }
+#     ],
+#     "totalProviders": 10,
+#     "totalCountries": 5
+#   }
+# }
+
+### Expected Response Format for Services by Country:
+# {
+#   "isSuccess": true,
+#   "message": "Found 15 service(s) across 5 country(ies)",
+#   "data": {
+#     "servicesByCountry": [
+#       {
+#         "countryCode": "CO",
+#         "countryName": "Colombia",
+#         "count": 8
+#       },
+#       {
+#         "countryCode": "PE",
+#         "countryName": "Peru",
+#         "count": 6
+#       }
+#     ],
+#     "totalServices": 15,
+#     "totalCountries": 5,
+#     "averageHourlyRate": 45.50
+#   }
+# }
+
+###
+

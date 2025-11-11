@@ -86,6 +86,9 @@ TekusChallenge/
 │   │   └── Tekus.Transversal/           # Componentes transversales
 │   └── tests/
 │       └── TekusChallenge.UnitTests/    # Pruebas unitarias
+├── database/                             # Scripts SQL de base de datos
+│   ├── CreateDatabase.sql               # Creación de BD, tablas e índices
+│   └── InsertData.sql                   # Datos iniciales de prueba
 └── .github/
     └── workflows/                        # Pipelines de CI/CD
 ```
@@ -96,6 +99,30 @@ TekusChallenge/
 - SQL Server (o Azure SQL Database)
 - Azure Subscription (para despliegue)
 - GitHub Actions (para CI/CD)
+
+## 🗄️ Scripts SQL de Base de Datos
+
+El proyecto incluye scripts SQL para crear y poblar la base de datos. Los scripts se encuentran en la carpeta `database/`:
+
+### Scripts Disponibles
+
+1. **`CreateDatabase.sql`**: Crea la base de datos, tablas e índices
+2. **`InsertData.sql`**: Inserta datos iniciales de prueba
+
+### Instalación
+
+Ejecuta los scripts en orden en SQL Server Management Studio (SSMS):
+
+1. Abre **`CreateDatabase.sql`** y ejecútalo (`F5`)
+2. Abre **`InsertData.sql`** y ejecútalo (`F5`)
+
+### Datos Iniciales Incluidos
+
+- ✅ 10 países
+- ✅ 8 proveedores de servicios tecnológicos
+- ✅ 30 campos personalizados
+- ✅ 15 servicios diversos
+- ✅ 52 relaciones servicio-país
 
 ## Configuración
 

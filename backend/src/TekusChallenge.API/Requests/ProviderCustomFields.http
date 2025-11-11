@@ -1,0 +1,79 @@
+### Variables
+@baseUrl = https://localhost:7291
+@apiVersion = 1.0
+
+### Create Provider Custom Field
+POST {{baseUrl}}/api/v{{apiVersion}}/ProviderCustomFields
+Content-Type: application/json
+
+{
+  "providerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "fieldName": "Número de contacto en Marte",
+  "fieldValue": "+1-555-MARS-123",
+  "fieldType": "text",
+  "description": "Número de contacto de emergencia en Marte",
+  "displayOrder": 1
+}
+
+### Create Provider Custom Field - Boolean Type
+POST {{baseUrl}}/api/v{{apiVersion}}/ProviderCustomFields
+Content-Type: application/json
+
+{
+  "providerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "fieldName": "Certificación ISO 9001",
+  "fieldValue": "true",
+  "fieldType": "boolean",
+  "description": "Indica si el proveedor tiene certificación ISO 9001",
+  "displayOrder": 2
+}
+
+### Create Provider Custom Field - Number Type
+POST {{baseUrl}}/api/v{{apiVersion}}/ProviderCustomFields
+Content-Type: application/json
+
+{
+  "providerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "fieldName": "Años de experiencia",
+  "fieldValue": "15",
+  "fieldType": "number",
+  "description": "Años de experiencia en el mercado",
+  "displayOrder": 3
+}
+
+### Create Provider Custom Field - Date Type
+POST {{baseUrl}}/api/v{{apiVersion}}/ProviderCustomFields
+Content-Type: application/json
+
+{
+  "providerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "fieldName": "Fecha de última auditoría",
+  "fieldValue": "2024-11-01",
+  "fieldType": "date",
+  "description": "Fecha de la última auditoría realizada",
+  "displayOrder": 4
+}
+
+### Update Provider Custom Field
+PUT {{baseUrl}}/api/v{{apiVersion}}/ProviderCustomFields/3fa85f64-5717-4562-b3fc-2c963f66afa6
+Content-Type: application/json
+
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "providerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "fieldName": "Número de contacto en Marte (Actualizado)",
+  "fieldValue": "+1-555-MARS-456",
+  "fieldType": "text",
+  "description": "Número de contacto de emergencia en Marte - Actualizado",
+  "displayOrder": 1
+}
+
+### Delete Provider Custom Field
+DELETE {{baseUrl}}/api/v{{apiVersion}}/ProviderCustomFields/3fa85f64-5717-4562-b3fc-2c963f66afa6
+
+### Get All Custom Fields By Provider ID
+GET {{baseUrl}}/api/v{{apiVersion}}/ProviderCustomFields/provider/3fa85f64-5717-4562-b3fc-2c963f66afa6
+
+### Get Provider Custom Field By ID
+GET {{baseUrl}}/api/v{{apiVersion}}/ProviderCustomFields/3fa85f64-5717-4562-b3fc-2c963f66afa6
+

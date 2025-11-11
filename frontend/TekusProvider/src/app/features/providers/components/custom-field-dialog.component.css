@@ -4,15 +4,16 @@ h2[mat-dialog-title] {
   gap: 12px;
   margin: 0;
   padding: 20px 24px;
-  background-color: #f5f5f5;
-  border-bottom: 1px solid #e0e0e0;
+  background-color: var(--mat-sys-surface-container);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  color: var(--mat-sys-on-surface);
 }
 
 h2[mat-dialog-title] mat-icon {
   font-size: 28px;
   width: 28px;
   height: 28px;
-  color: #1976d2;
+  color: var(--mat-sys-primary);
 }
 
 mat-dialog-content {
@@ -40,13 +41,13 @@ mat-dialog-content {
   font-size: 20px;
   width: 20px;
   height: 20px;
-  color: #666;
+  color: var(--mat-sys-on-surface-variant);
 }
 
 mat-dialog-actions {
   padding: 16px 24px !important;
-  border-top: 1px solid #e0e0e0;
-  background-color: #fafafa;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+  background-color: var(--mat-sys-surface-container);
 }
 
 mat-dialog-actions button {

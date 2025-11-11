@@ -1,0 +1,100 @@
+<h2 mat-dialog-title>
+  <mat-icon>{{ isEditMode() ? 'edit' : 'add' }}</mat-icon>
+  <span>{{ isEditMode() ? 'Editar Campo Personalizado' : 'Nuevo Campo Personalizado' }}</span>
+</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="customFieldForm" class="custom-field-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre del Campo</mat-label>
+      <input
+        matInput
+        formControlName="fieldName"
+        placeholder="Ej: Teléfono de Contacto"
+      />
+      <mat-icon matPrefix>label</mat-icon>
+      @if (customFieldForm.get('fieldName')?.invalid && customFieldForm.get('fieldName')?.touched) {
+        <mat-error>{{ getErrorMessage('fieldName') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Tipo de Campo</mat-label>
+      <mat-select formControlName="fieldType">
+        @for (type of fieldTypes; track type.value) {
+          <mat-option [value]="type.value">
+            <div class="field-type-option">
+              <mat-icon>{{ type.icon }}</mat-icon>
+              <span>{{ type.label }}</span>
+            </div>
+          </mat-option>
+        }
+      </mat-select>
+      <mat-icon matPrefix>category</mat-icon>
+      @if (customFieldForm.get('fieldType')?.invalid && customFieldForm.get('fieldType')?.touched) {
+        <mat-error>{{ getErrorMessage('fieldType') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Valor Inicial</mat-label>
+      <input
+        matInput
+        formControlName="fieldValue"
+        placeholder="Ingrese el valor inicial"
+      />
+      <mat-icon matPrefix>edit</mat-icon>
+      <mat-hint>Para campos booleanos use "true" o "false"</mat-hint>
+      @if (customFieldForm.get('fieldValue')?.invalid && customFieldForm.get('fieldValue')?.touched) {
+        <mat-error>{{ getErrorMessage('fieldValue') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        placeholder="Describe el propósito de este campo"
+        rows="3"
+      ></textarea>
+      <mat-icon matPrefix>description</mat-icon>
+      @if (customFieldForm.get('description')?.invalid && customFieldForm.get('description')?.touched) {
+        <mat-error>{{ getErrorMessage('description') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Orden de Visualización</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="displayOrder"
+        placeholder="1"
+        min="1"
+      />
+      <mat-icon matPrefix>sort</mat-icon>
+      <mat-hint>Los campos se ordenarán según este número</mat-hint>
+      @if (customFieldForm.get('displayOrder')?.invalid && customFieldForm.get('displayOrder')?.touched) {
+        <mat-error>{{ getErrorMessage('displayOrder') }}</mat-error>
+      }
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">
+    <mat-icon>close</mat-icon>
+    Cancelar
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onSubmit()"
+    [disabled]="customFieldForm.invalid"
+  >
+    <mat-icon>{{ isEditMode() ? 'save' : 'add' }}</mat-icon>
+    {{ isEditMode() ? 'Guardar Cambios' : 'Crear Campo' }}
+  </button>
+</mat-dialog-actions>
+

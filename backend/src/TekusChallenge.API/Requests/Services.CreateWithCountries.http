@@ -8,7 +8,7 @@ Content-Type: application/json
   "name": "Desarrollo Web Frontend",
   "hourlyRate": 45.00,
   "description": "Desarrollo de interfaces de usuario con React, Vue.js y Angular. Incluye diseño responsivo y optimización de rendimiento.",
-  "providerId": "5B92770C-0815-4CB0-8FFD-1F7F7D44BACA",
+  "providerId": "22818AD1-2905-41C5-A03B-A7A3ED8E1683",
   "countryCodes": ["CO", "MX", "PE"]
 }
 
@@ -22,7 +22,7 @@ Content-Type: application/json
   "name": "Consultoría Cloud AWS",
   "hourlyRate": 75.00,
   "description": "Asesoría en arquitectura cloud, migración a AWS, optimización de costos y mejores prácticas de seguridad.",
-  "providerId": "5B35E57F-97F5-40B8-949A-309275B24703",
+  "providerId": "52237923-6E4A-4C19-BB84-F5B5C13CD228",
   "countryCodes": ["CO", "US", "MX", "BR"]
 }
 
@@ -36,7 +36,7 @@ Content-Type: application/json
   "name": "Desarrollo Backend .NET",
   "hourlyRate": 50.00,
   "description": "Desarrollo de APIs REST con .NET Core, implementación de arquitectura limpia y patrones de diseño.",
-  "providerId": "5B92770C-0815-4CB0-8FFD-1F7F7D44BACA",
+  "providerId": "0524F6A2-8BCF-412F-A0A4-D8DB81EFB4F5",
   "countryCodes": []
 }
 
@@ -51,7 +51,7 @@ Content-Type: application/json
   "name": "Desarrollo Web Frontend Actualizado",
   "hourlyRate": 48.00,
   "description": "Desarrollo de interfaces de usuario con React, Vue.js, Angular y Next.js.",
-  "providerId": "5B92770C-0815-4CB0-8FFD-1F7F7D44BACA",
+  "providerId": "22818AD1-2905-41C5-A03B-A7A3ED8E1683",
   "countryCodes": ["CO", "MX", "PE", "CL", "AR"]
 }
 

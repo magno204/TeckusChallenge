@@ -16,6 +16,7 @@
     <Project Path="backend/src/Tekus.Transversal/Tekus.Transversal.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="backend/tests/TekusChallenge.IntegrationTests/TekusChallenge.IntegrationTests.csproj" Id="31002948-92c0-4447-9407-abf2b7534179" />
     <Project Path="backend/tests/TekusChallenge.UnitTests/TekusChallenge.UnitTests.csproj" Id="51990e15-92f8-461c-9cd5-46f24c0256d7" />
   </Folder>
 </Solution>

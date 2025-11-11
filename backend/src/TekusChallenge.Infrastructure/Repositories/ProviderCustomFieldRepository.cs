@@ -111,6 +111,7 @@ public class ProviderCustomFieldRepository : IProviderCustomFieldRepository
 
         entity.FieldName = entity.FieldName.ToUpper();
         entity.Description = string.IsNullOrWhiteSpace(entity.Description) ? null : entity.Description;
+        entity.FieldType = entity.FieldType.ToLower();
 
         _context.ProviderCustomFields.Update(entity);
 

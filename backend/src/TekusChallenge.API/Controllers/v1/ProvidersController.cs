@@ -54,7 +54,16 @@ public class ProvidersController: ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProvider(string id, [FromBody] UpdateProviderCommand command)
     {
-        var providerId = Guid.Parse(id);
+        if(string.IsNullOrEmpty(id))
+        {
+            return BadRequest("ID provider is required");
+        }
+
+        if(!Guid.TryParse(id, out var providerId))
+        {
+            return BadRequest("Invalid provider ID format");
+        }
+
         if(providerId == Guid.Empty)
         {
             return BadRequest("ID provider is required");
@@ -64,8 +73,11 @@ public class ProvidersController: ControllerBase
         {
             return BadRequest("Command is required");
         }
+
+        // Asignar el ID de la ruta al comando
+        var updateCommand = command with { Id = providerId };
         
-        var result = await _mediator.Send(command);
+        var result = await _mediator.Send(updateCommand);
 
         if(!result.IsSuccess)
         {

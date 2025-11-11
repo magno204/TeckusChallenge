@@ -29,7 +29,10 @@ export interface CustomFieldDialogData {
   ],
   templateUrl: './custom-field-dialog.component.html',
   styleUrl: './custom-field-dialog.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'custom-field-dialog'
+  }
 })
 export class CustomFieldDialogComponent implements OnInit {
   private fb = inject(FormBuilder);
@@ -41,6 +44,7 @@ export class CustomFieldDialogComponent implements OnInit {
 
   fieldTypes = [
     { value: 'text', label: 'Texto', icon: 'text_fields' },
+    { value: 'email', label: 'Correo Electrónico', icon: 'email' },
     { value: 'url', label: 'URL', icon: 'link' },
     { value: 'date', label: 'Fecha', icon: 'calendar_today' },
     { value: 'boolean', label: 'Verdadero/Falso', icon: 'toggle_on' },

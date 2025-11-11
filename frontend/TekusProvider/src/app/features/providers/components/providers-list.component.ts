@@ -1,43 +1,36 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, signal, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { MatTableModule } from '@angular/material/table';
-import { MatCardModule } from '@angular/material/card';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { ProviderService } from '../services/provider.service';
 import { Provider } from '../models/provider.models';
 
+/**
+ * Componente del listado de proveedores
+ * Muestra una tabla con todos los proveedores registrados
+ */
 @Component({
   selector: 'app-providers-list',
-  imports: [
-    CommonModule,
-    MatTableModule,
-    MatCardModule,
-    MatProgressSpinnerModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTooltipModule
-  ],
+  imports: [CommonModule],
   templateUrl: './providers-list.component.html',
-  styleUrl: './providers-list.component.css'
+  styleUrl: './providers-list.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProvidersListComponent implements OnInit {
-  private providerService = inject(ProviderService);
-  private router = inject(Router);
+  private readonly providerService = inject(ProviderService);
+  private readonly router = inject(Router);
 
-  displayedColumns: string[] = ['name', 'nit', 'email', 'actions'];
-  providers = signal<Provider[]>([]);
-  isLoading = signal(false);
-  errorMessage = signal<string | null>(null);
+  protected readonly providers = signal<Provider[]>([]);
+  protected readonly isLoading = signal(false);
+  protected readonly errorMessage = signal<string | null>(null);
 
   ngOnInit(): void {
     this.loadProviders();
   }
 
-  loadProviders(): void {
+  /**
+   * Carga el listado de proveedores
+   */
+  protected loadProviders(): void {
     this.isLoading.set(true);
     this.errorMessage.set(null);
 
@@ -57,7 +50,10 @@ export class ProvidersListComponent implements OnInit {
     });
   }
 
-  editProvider(provider: Provider): void {
+  /**
+   * Navega a la página de edición del proveedor
+   */
+  protected editProvider(provider: Provider): void {
     this.router.navigate(['/providers/edit', provider.id]);
   }
 }

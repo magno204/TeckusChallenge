@@ -59,7 +59,9 @@ public class ProviderCustomFieldRepository : IProviderCustomFieldRepository
 
     public async Task<ProviderCustomField?> FirstOrDefaultAsync(Expression<Func<ProviderCustomField, bool>> predicate, CancellationToken cancellationToken = default)
     {
-        return await _context.ProviderCustomFields.FirstOrDefaultAsync(predicate, cancellationToken);
+        return await _context.ProviderCustomFields
+            .AsNoTracking()
+            .FirstOrDefaultAsync(predicate, cancellationToken);
     }
 
     public async Task<IEnumerable<ProviderCustomField>> GetAllAsync(CancellationToken cancellationToken = default)
@@ -98,22 +100,20 @@ public class ProviderCustomFieldRepository : IProviderCustomFieldRepository
 
     public async Task<bool> UpdateAsync(ProviderCustomField entity, CancellationToken cancellationToken = default)
     {
-        var existingField = await _context.ProviderCustomFields
+        var exists = await _context.ProviderCustomFields
             .AsNoTracking()
-            .SingleOrDefaultAsync(pcf => pcf.Id == entity.Id, cancellationToken);
+            .AnyAsync(pcf => pcf.Id == entity.Id, cancellationToken);
 
-        if (existingField == null)
+        if (!exists)
         {
             return false;
         }
 
-        existingField.FieldName = entity.FieldName.ToUpper();
-        existingField.FieldValue = entity.FieldValue;
-        existingField.FieldType = entity.FieldType;
-        existingField.Description = entity.Description;
-        existingField.DisplayOrder = entity.DisplayOrder;
+        entity.FieldName = entity.FieldName.ToUpper();
+        entity.Description = string.IsNullOrWhiteSpace(entity.Description) ? null : entity.Description;
 
-        _context.ProviderCustomFields.Update(existingField);
+        _context.ProviderCustomFields.Update(entity);
+
         return await Task.FromResult(true);
     }
 

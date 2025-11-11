@@ -1,0 +1,39 @@
+.main-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #0f1419;
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 280px;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease;
+  min-width: 0;
+  min-height: 100vh;
+}
+
+/* Cuando el sidebar está colapsado */
+.main-content.sidebar-collapsed {
+  margin-left: 80px;
+}
+
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #0f1419;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+  }
+  
+  .main-content.sidebar-collapsed {
+    margin-left: 0;
+  }
+}
+

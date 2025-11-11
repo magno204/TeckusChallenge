@@ -1,13 +1,16 @@
 <div class="provider-edit-container">
-  <mat-card class="edit-card">
-    <mat-card-header>
-      <mat-card-title class="header-title">
-        <mat-icon>edit</mat-icon>
-        <span>Editar Proveedor</span>
-      </mat-card-title>
-    </mat-card-header>
+  <div class="edit-header">
+    <h1 class="edit-title">
+      <span class="title-icon">✏️</span>
+      Editar Proveedor
+    </h1>
+    <button class="back-button" type="button" (click)="onCancel()">
+      <span class="back-icon">←</span>
+      Volver
+    </button>
+  </div>
 
-    <mat-card-content>
+  <div class="edit-content">
       @if (isLoading()) {
         <div class="loading-container">
           <mat-spinner></mat-spinner>
@@ -108,7 +111,7 @@
                             matInput
                             formControlName="fieldValue"
                             [placeholder]="field.get('description')?.value"
-                            [class.disabled]="isSaving()"
+                            readonly
                           />
                           <mat-icon matPrefix>{{ getFieldIcon('text') }}</mat-icon>
                           <mat-hint>{{ field.get('description')?.value }}</mat-hint>
@@ -122,9 +125,23 @@
                             type="url"
                             formControlName="fieldValue"
                             [placeholder]="field.get('description')?.value"
-                            [class.disabled]="isSaving()"
+                            readonly
                           />
                           <mat-icon matPrefix>{{ getFieldIcon('url') }}</mat-icon>
+                          <mat-hint>{{ field.get('description')?.value }}</mat-hint>
+                        </mat-form-field>
+                      }
+                      @case ('email') {
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>{{ field.get('fieldName')?.value }}</mat-label>
+                          <input
+                            matInput
+                            type="email"
+                            formControlName="fieldValue"
+                            [placeholder]="field.get('description')?.value"
+                            readonly
+                          />
+                          <mat-icon matPrefix>{{ getFieldIcon('email') }}</mat-icon>
                           <mat-hint>{{ field.get('description')?.value }}</mat-hint>
                         </mat-form-field>
                       }
@@ -133,14 +150,11 @@
                           <mat-label>{{ field.get('fieldName')?.value }}</mat-label>
                           <input
                             matInput
-                            [matDatepicker]="picker"
                             formControlName="fieldValue"
                             [placeholder]="field.get('description')?.value"
-                            [class.disabled]="isSaving()"
+                            readonly
                           />
                           <mat-icon matPrefix>{{ getFieldIcon('date') }}</mat-icon>
-                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                          <mat-datepicker #picker></mat-datepicker>
                           <mat-hint>{{ field.get('description')?.value }}</mat-hint>
                         </mat-form-field>
                       }
@@ -149,7 +163,8 @@
                           <mat-slide-toggle
                             formControlName="fieldValue"
                             color="primary"
-                            [disabled]="isSaving()"
+                            [disabled]="true"
+                            readonly="true"
                           >
                             <div class="boolean-field-content">
                               <mat-icon>{{ getFieldIcon('boolean') }}</mat-icon>
@@ -169,7 +184,7 @@
                             type="number"
                             formControlName="fieldValue"
                             [placeholder]="field.get('description')?.value"
-                            [class.disabled]="isSaving()"
+                            readonly
                           />
                           <mat-icon matPrefix>{{ getFieldIcon('number') }}</mat-icon>
                           <mat-hint>{{ field.get('description')?.value }}</mat-hint>
@@ -311,7 +326,6 @@
           </div>
         </form>
       }
-    </mat-card-content>
-  </mat-card>
+  </div>
 </div>
 

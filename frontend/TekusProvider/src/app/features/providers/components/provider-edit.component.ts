@@ -17,7 +17,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ProviderService } from '../services/provider.service';
-import { Provider, UpdateProviderDto, CustomField, UpdateCustomFieldDto } from '../models/provider.models';
+import { 
+  Provider, 
+  UpdateProviderDto, 
+  CustomField, 
+  CreateCustomFieldDto,
+  UpdateCustomFieldCommandDto 
+} from '../models/provider.models';
 import { CustomFieldDialogComponent, CustomFieldDialogData } from './custom-field-dialog.component';
 
 @Component({
@@ -144,6 +150,7 @@ export class ProviderEditComponent implements OnInit {
     switch (fieldType) {
       case 'text': return 'text_fields';
       case 'url': return 'link';
+      case 'email': return 'email';
       case 'date': return 'calendar_today';
       case 'boolean': return 'toggle_on';
       case 'number': return 'numbers';
@@ -210,51 +217,190 @@ export class ProviderEditComponent implements OnInit {
   }
 
   addCustomField(fieldData: any): void {
-    const fieldValue = this.getFieldValueByTypeFromString(fieldData.fieldValue, fieldData.fieldType);
-    
-    this.customFields.push(this.fb.group({
-      id: [null], // null para nuevos campos
-      fieldName: [fieldData.fieldName, Validators.required],
-      fieldValue: [fieldValue, Validators.required],
-      fieldType: [fieldData.fieldType],
-      description: [fieldData.description],
-      displayOrder: [fieldData.displayOrder]
-    }));
+    this.isSaving.set(true);
 
-    // Reordenar campos por displayOrder
-    this.sortCustomFields();
+    const createDto: CreateCustomFieldDto = {
+      providerId: this.providerId(),
+      fieldName: fieldData.fieldName,
+      fieldValue: fieldData.fieldValue,
+      fieldType: fieldData.fieldType,
+      description: fieldData.description,
+      displayOrder: fieldData.displayOrder
+    };
 
-    this.snackBar.open('Campo personalizado agregado', 'Cerrar', {
-      duration: 2000
+    // Console log para debug
+    console.log('📤 Enviando creación de campo personalizado:', {
+      url: 'v1/ProviderCustomFields',
+      method: 'POST',
+      body: createDto
+    });
+
+    this.providerService.createCustomField(createDto).subscribe({
+      next: (response) => {
+        console.log('✅ Respuesta de creación exitosa:', response);
+        
+        if (response.isSuccess && response.data) {
+          // Agregar el campo al FormArray con el ID retornado del servidor
+          const fieldValue = this.getFieldValueByTypeFromString(response.data.fieldValue, response.data.fieldType);
+          
+          this.customFields.push(this.fb.group({
+            id: [response.data.id],
+            fieldName: [response.data.fieldName, Validators.required],
+            fieldValue: [fieldValue, Validators.required],
+            fieldType: [response.data.fieldType],
+            description: [response.data.description],
+            displayOrder: [response.data.displayOrder]
+          }));
+
+          // Reordenar campos por displayOrder
+          this.sortCustomFields();
+
+          this.snackBar.open('Campo personalizado creado exitosamente', 'Cerrar', {
+            duration: 3000
+          });
+        } else {
+          this.snackBar.open(response.message || 'Error al crear el campo', 'Cerrar', {
+            duration: 5000,
+            panelClass: ['error-snackbar']
+          });
+        }
+        this.isSaving.set(false);
+      },
+      error: (error) => {
+        console.error('❌ Error al crear campo personalizado:', error);
+        
+        const errorMsg = error.error?.message || 'Error al conectar con el servidor';
+        this.snackBar.open(errorMsg, 'Cerrar', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
+        this.isSaving.set(false);
+      }
     });
   }
 
   updateCustomField(index: number, fieldData: any): void {
-    const fieldValue = this.getFieldValueByTypeFromString(fieldData.fieldValue, fieldData.fieldType);
+    const customFieldId = this.customFields.at(index).get('id')?.value;
     
-    this.customFields.at(index).patchValue({
+    if (!customFieldId) {
+      this.snackBar.open('Error: ID del campo no encontrado', 'Cerrar', {
+        duration: 5000,
+        panelClass: ['error-snackbar']
+      });
+      return;
+    }
+
+    this.isSaving.set(true);
+
+    const updateDto: UpdateCustomFieldCommandDto = {
+      id: customFieldId,
+      providerId: this.providerId(),
       fieldName: fieldData.fieldName,
-      fieldValue: fieldValue,
+      fieldValue: fieldData.fieldValue,
       fieldType: fieldData.fieldType,
       description: fieldData.description,
       displayOrder: fieldData.displayOrder
+    };
+
+    // Console log para debug
+    console.log('📤 Enviando actualización de campo personalizado:', {
+      url: `v1/ProviderCustomFields/${customFieldId}`,
+      method: 'PUT',
+      body: updateDto
     });
 
-    // Reordenar campos por displayOrder
-    this.sortCustomFields();
+    this.providerService.updateCustomField(customFieldId, updateDto).subscribe({
+      next: (response) => {
+        console.log('✅ Respuesta de actualización exitosa:', response);
+        
+        if (response.isSuccess && response.data) {
+          // Actualizar el campo en el FormArray
+          const fieldValue = this.getFieldValueByTypeFromString(response.data.fieldValue, response.data.fieldType);
+          
+          this.customFields.at(index).patchValue({
+            fieldName: response.data.fieldName,
+            fieldValue: fieldValue,
+            fieldType: response.data.fieldType,
+            description: response.data.description,
+            displayOrder: response.data.displayOrder
+          });
 
-    this.snackBar.open('Campo personalizado actualizado', 'Cerrar', {
-      duration: 2000
+          // Reordenar campos por displayOrder
+          this.sortCustomFields();
+
+          this.snackBar.open('Campo personalizado actualizado exitosamente', 'Cerrar', {
+            duration: 3000
+          });
+        } else {
+          this.snackBar.open(response.message || 'Error al actualizar el campo', 'Cerrar', {
+            duration: 5000,
+            panelClass: ['error-snackbar']
+          });
+        }
+        this.isSaving.set(false);
+      },
+      error: (error) => {
+        console.error('❌ Error al actualizar campo personalizado:', error);
+        
+        const errorMsg = error.error?.message || 'Error al conectar con el servidor';
+        this.snackBar.open(errorMsg, 'Cerrar', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
+        this.isSaving.set(false);
+      }
     });
   }
 
   deleteCustomField(index: number): void {
     const fieldName = this.customFields.at(index).get('fieldName')?.value;
+    const customFieldId = this.customFields.at(index).get('id')?.value;
+    
+    if (!customFieldId) {
+      this.snackBar.open('Error: ID del campo no encontrado', 'Cerrar', {
+        duration: 5000,
+        panelClass: ['error-snackbar']
+      });
+      return;
+    }
     
     if (confirm(`¿Está seguro de eliminar el campo "${fieldName}"?`)) {
-      this.customFields.removeAt(index);
-      this.snackBar.open('Campo personalizado eliminado', 'Cerrar', {
-        duration: 2000
+      this.isSaving.set(true);
+
+      // Console log para debug
+      console.log('📤 Enviando eliminación de campo personalizado:', {
+        url: `v1/ProviderCustomFields/${customFieldId}`,
+        method: 'DELETE',
+        customFieldId: customFieldId
+      });
+
+      this.providerService.deleteCustomField(customFieldId).subscribe({
+        next: (response) => {
+          console.log('✅ Respuesta de eliminación exitosa:', response);
+          
+          if (response.isSuccess) {
+            this.customFields.removeAt(index);
+            this.snackBar.open('Campo personalizado eliminado exitosamente', 'Cerrar', {
+              duration: 3000
+            });
+          } else {
+            this.snackBar.open(response.message || 'Error al eliminar el campo', 'Cerrar', {
+              duration: 5000,
+              panelClass: ['error-snackbar']
+            });
+          }
+          this.isSaving.set(false);
+        },
+        error: (error) => {
+          console.error('❌ Error al eliminar campo personalizado:', error);
+          
+          const errorMsg = error.error?.message || 'Error al conectar con el servidor';
+          this.snackBar.open(errorMsg, 'Cerrar', {
+            duration: 5000,
+            panelClass: ['error-snackbar']
+          });
+          this.isSaving.set(false);
+        }
       });
     }
   }
@@ -292,19 +438,13 @@ export class ProviderEditComponent implements OnInit {
       this.isSaving.set(true);
       this.errorMessage.set(null);
 
-      const customFieldsData: UpdateCustomFieldDto[] = this.customFields.value.map((field: any) => ({
-        fieldName: field.fieldName,
-        fieldValue: this.convertFieldValueToString(field.fieldValue, field.fieldType),
-        fieldType: field.fieldType,
-        description: field.description,
-        displayOrder: field.displayOrder
-      }));
-
+      // Solo actualizar información básica del proveedor
+      // Los campos personalizados se manejan con endpoints separados
       const updateData: UpdateProviderDto = {
         nit: this.providerForm.value.nit,
         name: this.providerForm.value.name,
         email: this.providerForm.value.email,
-        customFields: customFieldsData
+        customFields: [] // No se envían campos personalizados aquí
       };
 
       this.providerService.updateProvider(this.providerId(), updateData).subscribe({

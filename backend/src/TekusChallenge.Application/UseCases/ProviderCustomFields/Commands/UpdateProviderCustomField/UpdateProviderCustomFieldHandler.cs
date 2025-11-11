@@ -22,7 +22,10 @@ namespace TekusChallenge.Application.UseCases.ProviderCustomFields.Commands.Upda
         {
             var response = new Response<ProviderCustomFieldDto>();
 
-            var existingField = await _unitOfWork.ProviderCustomFields.GetByIdAsync(request.Id, cancellationToken);
+            var existingField = await _unitOfWork.ProviderCustomFields.FirstOrDefaultAsync(
+                pcf => pcf.Id == request.Id, 
+                cancellationToken);
+                
             if (existingField == null)
             {
                 response.IsSuccess = false;
@@ -30,8 +33,11 @@ namespace TekusChallenge.Application.UseCases.ProviderCustomFields.Commands.Upda
                 return response;
             }
 
-            var provider = await _unitOfWork.Providers.GetByIdAsync(request.ProviderId, cancellationToken);
-            if (provider == null)
+            var providerExists = await _unitOfWork.Providers.AnyAsync(
+                p => p.Id == request.ProviderId, 
+                cancellationToken);
+                
+            if (!providerExists)
             {
                 response.IsSuccess = false;
                 response.Message = "Provider not found.";

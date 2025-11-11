@@ -82,3 +82,43 @@ export interface UpdateProviderResponse {
   errors: string[] | null;
 }
 
+// Interfaces para operaciones de campos personalizados
+export interface CreateCustomFieldDto {
+  providerId: string;
+  fieldName: string;
+  fieldValue: string;
+  fieldType: 'text' | 'email' | 'url' | 'date' | 'boolean' | 'number';
+  description: string;
+  displayOrder: number;
+}
+
+export interface UpdateCustomFieldCommandDto {
+  id: string;
+  providerId: string;
+  fieldName: string;
+  fieldValue: string;
+  fieldType: 'text' | 'email' | 'url' | 'date' | 'boolean' | 'number';
+  description: string;
+  displayOrder: number;
+}
+
+export interface CustomFieldResponse {
+  data: CustomField;
+  isSuccess: boolean;
+  message: string;
+  errors: string[] | null;
+}
+
+export interface CustomFieldsResponse {
+  data: CustomField[];
+  isSuccess: boolean;
+  message: string;
+  errors: string[] | null;
+}
+
+export interface DeleteCustomFieldResponse {
+  isSuccess: boolean;
+  message: string;
+  errors: string[] | null;
+}
+

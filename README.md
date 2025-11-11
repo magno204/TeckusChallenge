@@ -73,7 +73,108 @@ TekusChallenge es una API REST desarrollada con **.NET 9.0** que implementa una 
 - **Campos Personalizados**: Sistema flexible de campos personalizados para proveedores
 - **Relaciones Servicio-País**: Asociación de servicios con múltiples países
 
-## Estructura del Proyecto
+## Frontend - TekusProvider
+
+### 🎨 Descripción
+
+**TekusProvider** es una aplicación web moderna desarrollada con **Angular 20.3** que proporciona una interfaz de usuario intuitiva y responsive para la gestión de proveedores, servicios y países. La aplicación implementa las mejores prácticas de Angular con componentes standalone, signals para gestión de estado, y Angular Material para una experiencia de usuario consistente.
+
+### 🔧 Tecnologías Frontend
+
+- **Angular 20.3**: Framework principal de desarrollo
+- **Angular Material 20.2**: Biblioteca de componentes UI con Material Design
+- **Angular CDK 20.2**: Component Dev Kit para funcionalidades avanzadas
+- **TypeScript 5.9**: Lenguaje de programación tipado
+- **RxJS 7.8**: Programación reactiva con observables
+- **Jasmine/Karma**: Framework de testing
+
+### 🏗️ Arquitectura Frontend
+
+La aplicación sigue una arquitectura modular basada en features:
+
+- **Standalone Components**: Todos los componentes son standalone (sin NgModules)
+- **Signals**: Gestión de estado reactivo con signals de Angular
+- **Lazy Loading**: Carga diferida de módulos por rutas
+- **Change Detection OnPush**: Optimización de rendimiento
+- **Reactive Forms**: Formularios reactivos para validación robusta
+
+### 📂 Estructura del Frontend
+
+```
+frontend/TekusProvider/
+├── src/
+│   ├── app/
+│   │   ├── core/                    # Funcionalidades core
+│   │   │   ├── guards/              # Guards de rutas (autenticación)
+│   │   │   ├── interceptors/        # Interceptores HTTP
+│   │   │   ├── models/              # Modelos de datos core
+│   │   │   └── services/            # Servicios core (auth, api)
+│   │   ├── features/                # Módulos por funcionalidad
+│   │   │   ├── auth/                # Autenticación y login
+│   │   │   ├── dashboard/           # Dashboard y estadísticas
+│   │   │   ├── providers/           # Gestión de proveedores
+│   │   │   └── services/            # Gestión de servicios
+│   │   ├── layout/                  # Componentes de layout
+│   │   │   ├── header/              # Cabecera de la aplicación
+│   │   │   ├── sidebar/             # Menú lateral
+│   │   │   └── main-layout/         # Layout principal
+│   │   └── shared/                  # Componentes compartidos
+│   │       ├── components/          # Componentes reutilizables
+│   │       ├── directives/          # Directivas personalizadas
+│   │       └── pipes/               # Pipes personalizados
+│   ├── environments/                # Configuración de entornos
+│   └── styles.css                   # Estilos globales
+└── public/                          # Archivos estáticos
+```
+
+### ✨ Características Frontend
+
+- **🔐 Autenticación JWT**: Sistema completo de login con tokens
+- **📊 Dashboard Interactivo**: Visualización de estadísticas y métricas
+- **👥 Gestión de Proveedores**: CRUD completo con interfaz intuitiva
+- **🛠️ Gestión de Servicios**: Administración de servicios y países asociados
+- **🎯 Campos Personalizados**: Sistema flexible de campos personalizados
+- **🎨 Material Design**: Interfaz moderna y profesional con Angular Material
+- **📱 Responsive Design**: Adaptable a diferentes tamaños de pantalla
+- **🔄 Estado Reactivo**: Gestión de estado con signals
+- **⚡ Carga Optimizada**: Lazy loading de rutas para mejor rendimiento
+- **🛡️ Interceptores HTTP**: Manejo automático de autenticación y errores
+
+### 🚀 Comandos de Desarrollo
+
+#### Instalar Dependencias
+```bash
+cd frontend/TekusProvider
+npm install
+```
+
+#### Ejecutar en Desarrollo
+```bash
+npm start
+# La aplicación estará disponible en http://localhost:4200
+```
+
+#### Compilar para Producción
+```bash
+npm run build
+# Los archivos compilados estarán en la carpeta dist/
+```
+
+#### Ejecutar Pruebas
+```bash
+npm test
+```
+
+### ⚙️ Configuración del Frontend
+
+La aplicación utiliza archivos de configuración de entorno ubicados en `src/environments/`:
+
+- **`environment.development.ts`**: Configuración para desarrollo local
+- **`environment.ts`**: Configuración para producción
+
+Asegúrese de configurar la URL del API backend en estos archivos antes de ejecutar la aplicación.
+
+## Estructura del Proyecto Completo
 
 ```
 TekusChallenge/
@@ -86,18 +187,31 @@ TekusChallenge/
 │   │   └── Tekus.Transversal/           # Componentes transversales
 │   └── tests/
 │       └── TekusChallenge.UnitTests/    # Pruebas unitarias
-├── database/                             # Scripts SQL de base de datos
+├── frontend/
+│   └── TekusProvider/                   # Aplicación Angular
+│       ├── src/                         # Código fuente
+│       ├── public/                      # Archivos estáticos
+│       ├── angular.json                 # Configuración de Angular
+│       └── package.json                 # Dependencias y scripts
+├── database/                            # Scripts SQL de base de datos
 │   ├── CreateDatabase.sql               # Creación de BD, tablas e índices
 │   └── InsertData.sql                   # Datos iniciales de prueba
 └── .github/
-    └── workflows/                        # Pipelines de CI/CD
+    └── workflows/                       # Pipelines de CI/CD
 ```
 
 ## Requisitos
 
+### Backend
 - .NET 9.0 SDK
 - SQL Server (o Azure SQL Database)
-- Azure Subscription (para despliegue)
+- Azure Subscription (para despliegue en producción)
+
+### Frontend
+- Node.js 18+ y npm
+- Angular CLI 20.3+
+
+### DevOps
 - GitHub Actions (para CI/CD)
 
 ## 🗄️ Scripts SQL de Base de Datos

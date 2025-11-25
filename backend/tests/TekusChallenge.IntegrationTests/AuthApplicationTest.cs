@@ -22,7 +22,7 @@ public class AuthApplicationTest : IClassFixture<CustomWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Login_CuandoLosCamposEstanVacios_DebeRetornarBadRequest()
+    public async Task Login_WhenFieldsAreEmpty_ShouldReturnBadRequest()
     {
         var loginCommand = new LoginCommand
         {
@@ -36,7 +36,7 @@ public class AuthApplicationTest : IClassFixture<CustomWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Login_CuandoLosCamposSonMuyCortos_DebeRetornarBadRequest()
+    public async Task Login_WhenFieldsAreTooShort_ShouldReturnBadRequest()
     {
         var loginCommand = new LoginCommand
         {
@@ -50,7 +50,7 @@ public class AuthApplicationTest : IClassFixture<CustomWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Login_CuandoLasCredencialesSonIncorrectas_DebeRetornarUnauthorized()
+    public async Task Login_WhenCredentialsAreIncorrect_ShouldReturnUnauthorized()
     {
         var loginCommand = new LoginCommand
         {
@@ -67,7 +67,7 @@ public class AuthApplicationTest : IClassFixture<CustomWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Login_CuandoLasCredencialesSonCorrectas_DebeRetornarOkConToken()
+    public async Task Login_WhenCredentialsAreCorrect_ShouldReturnOkWithToken()
     {
         var loginCommand = new LoginCommand
         {
@@ -96,7 +96,7 @@ public class AuthApplicationTest : IClassFixture<CustomWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Login_CuandoElUsernameEsCorrectoPeroPasswordIncorrecto_DebeRetornarUnauthorized()
+    public async Task Login_WhenUsernameIsCorrectButPasswordIsIncorrect_ShouldReturnUnauthorized()
     {
         var loginCommand = new LoginCommand
         {
@@ -110,7 +110,7 @@ public class AuthApplicationTest : IClassFixture<CustomWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Login_CuandoElPasswordEsCorrectoPeroUsernameIncorrecto_DebeRetornarUnauthorized()
+    public async Task Login_WhenPasswordIsCorrectButUsernameIsIncorrect_ShouldReturnUnauthorized()
     {
         var loginCommand = new LoginCommand
         {

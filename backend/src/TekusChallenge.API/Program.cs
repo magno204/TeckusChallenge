@@ -14,20 +14,23 @@ using Azure.Extensions.AspNetCore.Configuration.Secrets;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Azure Key Vault
 var keyVaultName = builder.Configuration["KeyVaultName"];
-var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
-builder.Configuration.AddAzureKeyVault(keyVaultUri, new DefaultAzureCredential(),
-    new AzureKeyVaultConfigurationOptions
-    {
-        ReloadInterval = TimeSpan.FromMinutes(1)
-    });
+if (!string.IsNullOrEmpty(keyVaultName) && builder.Environment.EnvironmentName != "Testing")
+{
+    var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
+    builder.Configuration.AddAzureKeyVault(keyVaultUri, new DefaultAzureCredential(),
+        new AzureKeyVaultConfigurationOptions
+        {
+            ReloadInterval = TimeSpan.FromMinutes(1)
+        });
+}
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices();
-builder.Services.AddInfrastructureServices(builder.Configuration);
+var useSqlServer = builder.Environment.EnvironmentName != "Testing";
+builder.Services.AddInfrastructureServices(builder.Configuration, useSqlServer);
 builder.Services.AddInjection();
 builder.Services.AddFeature(builder.Configuration);
 builder.Services.AddVersioning();

@@ -1,8 +1,8 @@
 import { Component, signal, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ProviderService } from '../services/provider.service';
-import { Provider } from '../models/provider.models';
+import { ProviderService } from '@providers/services/provider.service';
+import { Provider } from '@providers/models/provider.model';
 
 /**
  * Componente del listado de proveedores

@@ -1,13 +1,9 @@
 import { Component, inject, signal, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule } from '@angular/material/icon';
-import { CustomField } from '../models/provider.models';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { CustomField } from '@providers/models/custom-field.model';
+import { MaterialModule } from '@app/material.module';
 
 export interface CustomFieldDialogData {
   field?: CustomField;
@@ -20,12 +16,7 @@ export interface CustomFieldDialogData {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatIconModule
+    MaterialModule
   ],
   templateUrl: './custom-field-dialog.component.html',
   styleUrl: './custom-field-dialog.component.css',

@@ -11,17 +11,21 @@ namespace TekusChallenge.Infrastructure;
 
 public static class InfrastructureServices
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration, bool useSqlServer = true)
     {
         services.AddScoped<AuditableEntitySaveChangesInterceptor>();
-        services.AddDbContext<ApplicationDbContext>(options =>
+        
+        if (useSqlServer)
         {
-            options.UseSqlServer(configuration.GetConnectionString("TekusConnection"),
-                builder =>
-                {
-                    builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
-                });
-        });
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("TekusConnection"),
+                    builder =>
+                    {
+                        builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
+                    });
+            });
+        }
 
         services.AddScoped<ICountryRepository, CountryRepository>();
         services.AddScoped<IProviderRepository, ProviderRepository>();

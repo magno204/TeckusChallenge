@@ -677,3 +677,27 @@
     gap: 0.5rem;
   }
 }
+
+.no-services {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  gap: 1rem;
+  text-align: center;
+}
+
+.no-services mat-icon {
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+  color: #9575cd;
+  opacity: 0.5;
+}
+
+.no-services p {
+  margin: 0;
+  color: #a0a0a0;
+  font-size: 1rem;
+}

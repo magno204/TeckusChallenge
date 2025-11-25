@@ -239,20 +239,24 @@
           </mat-expansion-panel>
 
           <!-- Servicios Asociados -->
-          @if (provider() && provider()!.services.length > 0) {
-            <mat-divider class="section-divider"></mat-divider>
-            
-            <mat-expansion-panel class="services-panel">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <mat-icon>room_service</mat-icon>
-                  <span>Servicios Asociados</span>
-                </mat-panel-title>
-                <mat-panel-description>
+          <mat-divider class="section-divider"></mat-divider>
+          
+          <mat-expansion-panel class="services-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>room_service</mat-icon>
+                <span>Servicios Asociados</span>
+              </mat-panel-title>
+              <mat-panel-description>
+                @if (provider() && provider()!.services.length > 0) {
                   {{ provider()!.services.length }} servicio(s) registrado(s)
-                </mat-panel-description>
-              </mat-expansion-panel-header>
+                } @else {
+                  Sin servicios registrados
+                }
+              </mat-panel-description>
+            </mat-expansion-panel-header>
 
+            @if (provider() && provider()!.services.length > 0) {
               <div class="services-list">
                 @for (service of provider()!.services; track service.id) {
                   <div class="service-item">
@@ -273,8 +277,26 @@
                   </div>
                 }
               </div>
-            </mat-expansion-panel>
-          }
+            } @else {
+              <div class="no-services">
+                <mat-icon>info</mat-icon>
+                <p>No hay servicios registrados para este proveedor</p>
+              </div>
+            }
+
+            <div class="panel-actions">
+              <button
+                mat-raised-button
+                color="accent"
+                type="button"
+                (click)="openCreateServiceDialog()"
+                [disabled]="isSaving()"
+              >
+                <mat-icon>add</mat-icon>
+                Agregar Servicio
+              </button>
+            </div>
+          </mat-expansion-panel>
 
           @if (provider()) {
             <mat-divider class="section-divider"></mat-divider>

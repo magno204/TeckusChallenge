@@ -2,49 +2,26 @@ import { Component, signal, inject, OnInit, ChangeDetectionStrategy } from '@ang
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { ProviderService } from '../services/provider.service';
-import { 
-  Provider, 
-  UpdateProviderDto, 
-  CustomField, 
-  CreateCustomFieldDto,
-  UpdateCustomFieldCommandDto 
-} from '../models/provider.models';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { ProviderService } from '@providers/services/provider.service';
+import { Provider } from '@providers/models/provider.model';
+import { UpdateProviderDto } from '@providers/models/update-provider-dto.model';
+import { CustomField } from '@providers/models/custom-field.model';
+import { CreateCustomFieldDto } from '@providers/models/create-custom-field-dto.model';
+import { UpdateCustomFieldCommandDto } from '@providers/models/update-custom-field-command-dto.model';
 import { CustomFieldDialogComponent, CustomFieldDialogData } from './custom-field-dialog.component';
+import { ServiceDialogComponent, ServiceDialogData } from '@services/components/service-dialog.component';
+import { ServiceService } from '@services/services/service.service';
+import { CreateServiceDto } from '@services/models/service.models';
+import { MaterialModule } from '@app/material.module';
 
 @Component({
   selector: 'app-provider-edit',
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule,
-    MatIconModule,
-    MatSlideToggleModule,
-    MatExpansionModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatDividerModule,
-    MatDialogModule,
-    MatTooltipModule
+    MaterialModule
   ],
   templateUrl: './provider-edit.component.html',
   styleUrl: './provider-edit.component.css',
@@ -52,6 +29,7 @@ import { CustomFieldDialogComponent, CustomFieldDialogData } from './custom-fiel
 })
 export class ProviderEditComponent implements OnInit {
   private providerService = inject(ProviderService);
+  private serviceService = inject(ServiceService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -538,6 +516,69 @@ export class ProviderEditComponent implements OnInit {
     }
     
     return '';
+  }
+
+  openCreateServiceDialog(): void {
+    if (!this.provider()) {
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ServiceDialogComponent, {
+      width: '700px',
+      maxWidth: '90vw',
+      disableClose: true,
+      data: {
+        providerId: this.providerId(),
+        providerName: this.provider()!.name
+      } as ServiceDialogData
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.createService(result);
+      }
+    });
+  }
+
+  createService(serviceData: CreateServiceDto): void {
+    this.isSaving.set(true);
+
+    console.log('📤 Enviando creación de servicio:', {
+      url: 'v1/services',
+      method: 'POST',
+      body: serviceData
+    });
+
+    this.serviceService.createService(serviceData).subscribe({
+      next: (response) => {
+        console.log('✅ Respuesta de creación exitosa:', response);
+        
+        if (response.isSuccess && response.data) {
+          // Recargar el proveedor para obtener los servicios actualizados
+          this.loadProvider(this.providerId());
+          
+          this.snackBar.open('Servicio creado exitosamente', 'Cerrar', {
+            duration: 3000
+          });
+        } else {
+          this.snackBar.open(response.message || 'Error al crear el servicio', 'Cerrar', {
+            duration: 5000,
+            panelClass: ['error-snackbar']
+          });
+        }
+        this.isSaving.set(false);
+      },
+      error: (error) => {
+        console.error('❌ Error al crear servicio:', error);
+        
+        const errorMsg = error.error?.message || 'Error al conectar con el servidor';
+        this.snackBar.open(errorMsg, 'Cerrar', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
+        this.isSaving.set(false);
+      }
+    });
   }
 }
 

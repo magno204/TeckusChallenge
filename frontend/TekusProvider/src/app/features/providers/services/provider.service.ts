@@ -1,17 +1,15 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from '../../../core/services/api.service';
-import { 
-  ProvidersResponse, 
-  ProviderResponse, 
-  UpdateProviderDto, 
-  UpdateProviderResponse,
-  CreateCustomFieldDto,
-  UpdateCustomFieldCommandDto,
-  CustomFieldResponse,
-  CustomFieldsResponse,
-  DeleteCustomFieldResponse
-} from '../models/provider.models';
+import { ProvidersResponse } from '../models/providers-response.model';
+import { ProviderResponse } from '../models/provider-response.model';
+import { UpdateProviderDto } from '../models/update-provider-dto.model';
+import { UpdateProviderResponse } from '../models/update-provider-response.model';
+import { CreateCustomFieldDto } from '../models/create-custom-field-dto.model';
+import { UpdateCustomFieldCommandDto } from '../models/update-custom-field-command-dto.model';
+import { CustomFieldResponse } from '../models/custom-field-response.model';
+import { CustomFieldsResponse } from '../models/custom-fields-response.model';
+import { DeleteCustomFieldResponse } from '../models/delete-custom-field-response.model';
 
 @Injectable({
   providedIn: 'root'

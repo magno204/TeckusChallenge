@@ -7,6 +7,11 @@ public static class DatabaseExtensions
 {
     public static WebApplication ApplyMigrations(this WebApplication app)
     {
+        if (app.Environment.EnvironmentName == "Testing")
+        {
+            return app;
+        }
+
         using (var scope = app.Services.CreateScope())
         {
             var services = scope.ServiceProvider;
